@@ -1,4 +1,4 @@
-package com.amber.data.houseuk;
+package com.amberData.datafeed.houseuk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
