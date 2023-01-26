@@ -8,11 +8,12 @@ public class Address {
     
     private String id;
 
-	private String poan;
-	private String street;
-	private String borough;
 	private String county;
-	private long listing;
+	private String district;
+	private String paon;
+	private String postcode;
+	private String street;
+	private String town;
     
     
 }
