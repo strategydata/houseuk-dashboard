@@ -14,6 +14,4 @@ public class Address {
 	private String postcode;
 	private String street;
 	private String town;
-    
-    
 }
