@@ -53,8 +53,4 @@ public class HouseukApplication {
 
 		return body.block();
 	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(HouseukApplication.class, args);
-	}
 }
