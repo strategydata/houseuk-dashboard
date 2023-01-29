@@ -8,7 +8,7 @@
 		<version>3.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.amber.data</groupId>
+	<groupId>com.amberData.datafeed</groupId>
 	<artifactId>houseuk</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>houseuk</name>
