@@ -10,7 +10,9 @@
 
     <modules>
         <module>datafeed-scheduler</module>
-        <module>datafeed-scheduler</module>
+        <module>house-api-wrapper</module>
+        <module>house-webflux-api</module>
+        <module>core-domain-lib</module>
     </modules>
 
 </project>
