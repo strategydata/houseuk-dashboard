@@ -1,7 +1,6 @@
 package com.amberData.datafeed.houseuk;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -16,7 +15,7 @@ import com.amberData.datafeed.houseuk.pojo.Transaction;
 import com.amberData.datafeed.houseuk.pojo.TransactionReq;
 
 @Slf4j
-public class HouseukApplication {
+public class HouseApiWrapper {
 
 	@Value("${landregistry.base_url}")
 	private String baseUrl;
