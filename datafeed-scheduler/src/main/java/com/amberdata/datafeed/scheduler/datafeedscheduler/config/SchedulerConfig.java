@@ -1,15 +1,18 @@
-// package main.java.com.amberdata.datafeed.scheduler.datafeedscheduler.config;
+package com.amberdata.datafeed.scheduler.datafeedscheduler.config;
 
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-// import main.java.com.amberdata.datafeed.scheduler.datafeedscheduler.houseapiwrapper.HouseApiWrapper;
+import com.amberData.datafeed.houseuk.HouseApiWrapper;
 
-// @Configuration
-// public class SchedulerConfig{
+import org.springframework.context.annotation.Bean;
 
-//     @Bean
-//     public HouseApiWrapper houseApiWrapper(){
-//         return new HouseApiWrapper();
-//     }
-// }
+
+
+@Configuration
+public class SchedulerConfig{
+
+    @Bean
+    public HouseApiWrapper houseApiWrapper(){
+        return new HouseApiWrapper();
+    }
+}
