@@ -3,6 +3,6 @@ spring:
     web-application-type: none
   data:
     mongodb:
-      uri: mongodb+srv://kangAdmin:Wnwwykcj6@localhost:27017/data?retryWrites=true&w=majority
+      uri: mongodb://kangAdmin:Wnwwykcj6@d9169af823fc/data
 land-registry:
-  base_url: https://landregistry.data.gov.uk/app/ppd
+  base_url: https://landregistry.data.gov.uk/

@@ -25,7 +25,7 @@ public class DataFeedSchedTask {
         Transaction[] transactions =houseApiWrapper.getAllTransaction(new TransactionReq());
         if(transactions !=null && transactions.length >0){
             for(Transaction tran:transactions){
-                log.info("this is tran",tran);
+
 
             }
         }

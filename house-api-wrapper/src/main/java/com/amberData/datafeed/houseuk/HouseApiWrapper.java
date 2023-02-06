@@ -1,6 +1,8 @@
 package com.amberData.datafeed.houseuk;
 
+import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -13,6 +15,9 @@ import reactor.core.publisher.Mono;
 
 import com.amberData.datafeed.houseuk.pojo.Transaction;
 import com.amberData.datafeed.houseuk.pojo.TransactionReq;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class HouseApiWrapper {
@@ -32,9 +37,9 @@ public class HouseApiWrapper {
 		headers.add("Host", baseUrl);
 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("_page", "0");
-		params.add("min-transactionDate", "2022-11-01");
-		params.add("max-transactionDate", "2022-11-30");
+		params.add("_page", transactionReq.getPage());
+		params.add("min-transactionDate", transactionReq.getMinTransactionDate());
+		params.add("max-transactionDate", transactionReq.getMaxTransactionDate());
 		Mono<Transaction[]> body = webClient
 				.get()
 				.uri((urlBuilder) -> {
@@ -48,7 +53,8 @@ public class HouseApiWrapper {
 					log.error("Error when getAllTransaction: ", clientResponse);
 					return Mono.error(new Exception(clientResponse.toString()));
 				})
-				.bodyToMono(Transaction[].class);
+				.bodyToMono(Transaction[].class)
+				.timeout(Duration.ofSeconds(10));
 
 		return body.block();
 	}
