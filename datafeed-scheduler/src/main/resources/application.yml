@@ -4,4 +4,5 @@ spring:
   data:
     mongodb:
       uri: mongodb+srv://kangAdmin:Wnwwykcj6@localhost:27017/data?retryWrites=true&w=majority
-  
+land-registry:
+  base_url: https://landregistry.data.gov.uk/app/ppd

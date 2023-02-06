@@ -17,7 +17,7 @@ import com.amberData.datafeed.houseuk.pojo.TransactionReq;
 @Slf4j
 public class HouseApiWrapper {
 
-	@Value("${landregistry.base_url}")
+	@Value("${land-registry.base_url}")
 	private String baseUrl;
 
 	private WebClient webClient;
