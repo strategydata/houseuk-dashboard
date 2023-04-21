@@ -1,5 +1,6 @@
 package com.amberData.datafeed.houseuk;
 
+import io.netty.handler.codec.DecoderException;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -40,22 +41,26 @@ public class HouseApiWrapper {
 		params.add("_page", transactionReq.getPage());
 		params.add("min-transactionDate", transactionReq.getMinTransactionDate());
 		params.add("max-transactionDate", transactionReq.getMaxTransactionDate());
+		log.info(baseUrl);
 		Mono<Transaction[]> body = webClient
 				.get()
 				.uri((urlBuilder) -> {
 					return urlBuilder
+							.host("landregistry.data.gov.uk")
 							.path("/data/ppi/transaction-record.json")
 							.queryParams(params)
 							.build();
 				})
+				.header("Host","landregistry.data.gov.uk")
 				.retrieve()
 				.onStatus(HttpStatusCode::is4xxClientError, clientResponse -> {
 					log.error("Error when getAllTransaction: ", clientResponse);
 					return Mono.error(new Exception(clientResponse.toString()));
 				})
 				.bodyToMono(Transaction[].class)
-				.timeout(Duration.ofSeconds(10));
+				.timeout(Duration.ofSeconds(100));
 
+		log.info("this is the value of body",String.valueOf(body));
 		return body.block();
 	}
 }
