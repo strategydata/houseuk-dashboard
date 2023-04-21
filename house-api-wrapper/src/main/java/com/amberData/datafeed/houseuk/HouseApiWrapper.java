@@ -41,7 +41,6 @@ public class HouseApiWrapper {
 		params.add("_page", transactionReq.getPage());
 		params.add("min-transactionDate", transactionReq.getMinTransactionDate());
 		params.add("max-transactionDate", transactionReq.getMaxTransactionDate());
-		log.info(baseUrl);
 		Mono<Transaction[]> body = webClient
 				.get()
 				.uri((urlBuilder) -> {
@@ -60,7 +59,7 @@ public class HouseApiWrapper {
 				.bodyToMono(Transaction[].class)
 				.timeout(Duration.ofSeconds(100));
 
-		log.info("this is the value of body",String.valueOf(body));
+
 		return body.block();
 	}
 }
