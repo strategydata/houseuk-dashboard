@@ -12,7 +12,7 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "amberdata-house-uk" {
-  name = "amberdata-house-uk"
+  name = "amberdata_house_uk"
   location = var.region
 
   storage_class = var.storage_class
