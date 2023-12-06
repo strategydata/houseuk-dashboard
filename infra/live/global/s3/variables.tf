@@ -13,3 +13,8 @@ variable "storage_class" {
     default = "STANDARD"
 }
 
+variable "BQ_DATASET" {
+  description = "BigQuery Dataset that raw data (from GCS) will be written to"
+  type = string
+  default = "house_uk"
+}

@@ -14,7 +14,34 @@ provider "google" {
 resource "google_storage_bucket" "amberdata-house-uk" {
   name = "amberdata-house-uk"
   location = var.region
+
+  storage_class = var.storage_class
+  uniform_bucket_level_access = true
+
+  versioning {
+    enabled = true
+  }
+
+  lifecycle_rule {
+    action {
+      type = "Delete"
+    }
+
+    condition {
+      age=30
+    }
+  }
+
+  force_destroy = true
 }
+
+
+resource "google_bigquery_dataset" "amberdata-dataset" {
+  dataset_id = var.BQ_DATASET
+  project = var.project
+  location = var.region
+}
+
 
 
 # provider "aws" {
