@@ -1,5 +1,5 @@
 import logging
-import spark
+import pyspark
 import sys
 from os import environ as env
 
