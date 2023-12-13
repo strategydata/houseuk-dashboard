@@ -1,0 +1,17 @@
+environment = "production"
+network_mode = "default"
+subnetwork= "gke-bizops-runner-subnet-37859e17"
+min_master_version="1.23.14-gke.1800"
+cluster_ipv4_cidr_block="10.184.0.0/14"
+services_ipv4_cidr_block="10.181.224.0/20"
+highmem_pool_node_count=1
+testing_task_pool_node_count=1
+data_science_pool_node_count=0
+extraction_task_pool_node_count=2
+extraction_task_pool_highmem_node_count=1
+sales_analytics_pool_node_count=0
+dbt_task_pool_node_count=1
+project="project id"
+region="europe-west2"
+storage_class="STANDARD"
+BQ_DATASET="house_uk"
