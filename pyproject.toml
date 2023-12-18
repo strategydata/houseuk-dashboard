@@ -1,17 +1,12 @@
 [tool.poetry]
-name = "houseuk-data"
+name = "houseuk-dashboard"
 version = "0.1.0"
-description = "this repo is for data teams working on house uk data"
+description = ""
 authors = ["kang wang <kangqiwang@outlook.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-astroid = "^3.0.1"
-asttokens = "^2.4.1"
-attrs = "^23.1.0"
-backcall = "^0.2.0"
-
 
 
 [build-system]
