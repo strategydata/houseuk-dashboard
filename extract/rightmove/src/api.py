@@ -33,6 +33,14 @@ class Rightmove:
 
     @staticmethod
     def _request(url: str):
+        """_request _summary_
+
+        Args:
+            url (str): _description_
+
+        Returns:
+            _type_: _description_
+        """
         header={
             "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
         }
@@ -40,6 +48,7 @@ class Rightmove:
         return r.status_code, r.content
 
     def refresh_data(self, url: str = None, get_floorplans: bool = False):
+        
         """Make a fresh GET request for the rightmove data.
 
         Args:
@@ -134,6 +143,7 @@ class Rightmove:
         """Returns an integer of the total number of listings as displayed on
         the first page of results. Note that not all listings are available to
         scrape because rightmove limits the number of accessible pages."""
+        
         tree = html.fromstring(self._first_page)
         xpath = """//span[@class="searchHeader-resultCount"]/text()"""
         return int(tree.xpath(xpath)[0].replace(",", ""))
@@ -176,10 +186,13 @@ class Rightmove:
         //div[@class="propertyCard-branchLogo"]\
         //a[@class="propertyCard-branchLogo-link"]/@href"""
 
+        xp_date = """//span[@class="propertyCard-contactsAddedOrReduced"]/text()"""
+        
         # Create data lists from xpaths:
         price_pcm = tree.xpath(xp_prices)
         titles = tree.xpath(xp_titles)
         addresses = tree.xpath(xp_addresses)
+        add_date= tree.xpath(xp_date)
         base = "http://www.rightmove.co.uk"
         weblinks = [f"{base}{tree.xpath(xp_weblinks)[w]}" for w in range(len(tree.xpath(xp_weblinks)))]
         agent_urls = [f"{base}{tree.xpath(xp_agent_urls)[a]}" for a in range(len(tree.xpath(xp_agent_urls)))]
@@ -199,12 +212,14 @@ class Rightmove:
                 else:
                     floorplan_urls.append(np.nan)
 
+        # get published data
+        
         # Store the data in a Pandas DataFrame:
-        data = [price_pcm, titles, addresses, weblinks, agent_urls]
+        data = [price_pcm, titles, addresses, weblinks, agent_urls,add_date]
         data = data + [floorplan_urls] if get_floorplans else data
         temp_df = pd.DataFrame(data)
         temp_df = temp_df.transpose()
-        columns = ["price", "type", "address", "url", "agent_url"]
+        columns = ["price", "type", "address", "url", "agent_url","add_date"]
         columns = columns + ["floorplan_url"] if get_floorplans else columns
         temp_df.columns = columns
 
@@ -241,6 +256,7 @@ class Rightmove:
 
     @staticmethod
     def _clean_results(results: pd.DataFrame):
+        
         # Reset the index:
         results.reset_index(inplace=True, drop=True)
 
