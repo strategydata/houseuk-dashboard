@@ -7,8 +7,20 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+mypy = "^1.9.0"
+requests = "^2.31.0"
+pandas = "^2.2.2"
+numpy = "^1.26.4"
+lxml = "^5.2.1"
+pyspark = "^3.5.1"
+apache-airflow-providers-cncf-kubernetes = "^8.1.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version="3.9"
+
+ignore_missing_imports = true

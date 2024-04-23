@@ -1,6 +1,7 @@
 
 import pandas as pd
 import pytest
+import requests
 
 from rightmove.src.api import Rightmove
 
@@ -10,7 +11,7 @@ required_columns = {"address", "agent_url", "number_bedrooms", "postcode", "pric
 
 def test_sale_residential():
     """Test a search on residential properties for sale."""
-    url = f"{base_url}property-for-sale/find.html?searchType=SALE&locationIdentifier=REGION%5E94346&insId=1"
+    url = f"{base_url}property-for-sale/find.html?searchType=SALE&locationIdentifier=REGION%5E1195&insId=1"
     rm = Rightmove(url)
     assert isinstance(rm.average_price, float)
     assert isinstance(rm.get_results, pd.DataFrame)
