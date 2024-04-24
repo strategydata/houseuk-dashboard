@@ -14,6 +14,7 @@ numpy = "^1.26.4"
 lxml = "^5.2.1"
 pyspark = "^3.5.1"
 apache-airflow-providers-cncf-kubernetes = "^8.1.1"
+sphinx = "^7.3.7"
 
 
 [build-system]

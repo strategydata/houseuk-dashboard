@@ -12,3 +12,4 @@ target/
 *.log
 poetry.lock
 .gitignore
+docs/*
