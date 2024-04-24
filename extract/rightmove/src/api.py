@@ -99,6 +99,14 @@ class Rightmove:
         results which don't list a price)."""
         total = self.get_results["price"].dropna().sum()
         return total / self.results_count
+    
+    
+    @property
+    def median_price(self):
+        """median_price 
+            calculate median price of all results return by `get_results` ignoring results without prices
+        """
+        return self.get_results["price"].dropna().median()
 
     def summary(self, by: str = None):
         """DataFrame summarising results by mean price and count. Defaults to
