@@ -16,6 +16,8 @@ pyspark = "^3.5.1"
 apache-airflow-providers-cncf-kubernetes = "^8.1.1"
 sphinx = "^7.3.7"
 beautifulsoup4 = "^4.12.3"
+python-dateutil = "^2.9.0.post0"
+amber-data-utils = "^0.1.1"
 
 
 [build-system]
