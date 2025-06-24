@@ -12,3 +12,6 @@ target/
 *.log
 poetry.lock
 .gitignore
+.idea
+.mvn
+.vscode
