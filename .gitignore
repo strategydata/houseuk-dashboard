@@ -3,10 +3,8 @@
 target/
 *.idea
 *.csv
-*/*.env
 .env
 .pytest_cache
-.vscode/
 *.csv
 *.csv.gz
 *.log
@@ -15,3 +13,7 @@ poetry.lock
 .idea
 .mvn
 .vscode
+.rightmoveEnv
+.venv
+.vscode
+.mvn

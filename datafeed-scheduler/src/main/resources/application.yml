@@ -1,8 +1,0 @@
-spring:
-  main:
-    web-application-type: none
-  data:
-    mongodb:
-      uri: mongodb://kangAdmin:Wnwwykcj6@d9169af823fc/data
-land-registry:
-  base_url: https://landregistry.data.gov.uk/
