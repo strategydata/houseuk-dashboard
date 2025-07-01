@@ -1,0 +1,7 @@
+scrapy
+pymongo
+scrapyd
+scrapyd-client
+beautifulsoup4
+psycopg2-binary
+scrapy-selenium
