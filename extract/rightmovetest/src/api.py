@@ -48,7 +48,7 @@ class Rightmove:
         return r.status_code, r.content
 
     def refresh_data(self, url: str = None, get_floorplans: bool = False):
-        
+
         """Make a fresh GET request for the rightmove data.
 
         Args:
@@ -143,7 +143,7 @@ class Rightmove:
         """Returns an integer of the total number of listings as displayed on
         the first page of results. Note that not all listings are available to
         scrape because rightmove limits the number of accessible pages."""
-        
+
         tree = html.fromstring(self._first_page)
         xpath = """//span[@class="searchHeader-resultCount"]/text()"""
         return int(tree.xpath(xpath)[0].replace(",", ""))
@@ -187,7 +187,7 @@ class Rightmove:
         //a[@class="propertyCard-branchLogo-link"]/@href"""
 
         xp_date = """//span[@class="propertyCard-contactsAddedOrReduced"]/text()"""
-        
+
         # Create data lists from xpaths:
         price_pcm = tree.xpath(xp_prices)
         titles = tree.xpath(xp_titles)
@@ -213,7 +213,7 @@ class Rightmove:
                     floorplan_urls.append(np.nan)
 
         # get published data
-        
+
         # Store the data in a Pandas DataFrame:
         data = [price_pcm, titles, addresses, weblinks, agent_urls,add_date]
         data = data + [floorplan_urls] if get_floorplans else data
@@ -256,7 +256,7 @@ class Rightmove:
 
     @staticmethod
     def _clean_results(results: pd.DataFrame):
-        
+
         # Reset the index:
         results.reset_index(inplace=True, drop=True)
 

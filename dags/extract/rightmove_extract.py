@@ -10,7 +10,7 @@ env = os.environ.copy()
 
 
 rightmove_extract_cmd =f"""
-    
+
 """
 
 # dag = DAG(
@@ -21,5 +21,5 @@ rightmove_extract_cmd =f"""
 
 
 # rightmove_extract = KubernetesPodOperator(
-    
+
 # )

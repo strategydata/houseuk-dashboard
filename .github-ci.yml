@@ -251,7 +251,7 @@ clone_stop:
   script:
     - python -c 'import yaml, sys; print(yaml.safe_load(sys.stdin))' < permissions/snowflake/roles.yml
   allow_failure: false
-  
+
 .permifrost: &permifrost
   stage: 🐍 Python
   image: registry.gitlab.com/gitlab-data/permifrost:v0.13.1

@@ -40,3 +40,11 @@ default-groups = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+
+
+[tool.codespell]
+ignore-words-list="""
+    Id,
+"""

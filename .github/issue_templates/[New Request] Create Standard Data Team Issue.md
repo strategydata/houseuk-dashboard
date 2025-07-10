@@ -1,4 +1,4 @@
-### Problem Statement 
+### Problem Statement
 <!-- summarize the requested work -->
 
 ### Business Impact
@@ -19,4 +19,4 @@ _To be completed by Data Team member during validation_
 
 ### Reference Documents
 
-/label ~"workflow::1 - triage" 
+/label ~"workflow::1 - triage"

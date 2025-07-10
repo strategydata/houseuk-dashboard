@@ -98,5 +98,5 @@ if __name__=="__main__":
         )
 
     push_to_xcom_file(record_counts)
-    
-    
+
+

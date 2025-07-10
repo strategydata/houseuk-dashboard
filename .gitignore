@@ -17,5 +17,8 @@ poetry.lock
 .venv
 .vscode
 .mvn
-__pycache__/
+__pycache__/*
 *.pyc
+.vscode
+__pycache__
+uv.lock

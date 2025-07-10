@@ -29,3 +29,4 @@ class RightmoveItem(scrapy.Item):
     date_added= scrapy.Field()
     phone = scrapy.Field()
     email= scrapy.Field()
+    catalog_url = scrapy.Field()

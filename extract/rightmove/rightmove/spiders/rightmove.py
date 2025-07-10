@@ -18,6 +18,6 @@ class RightmoveSpider(SitemapSpider):
 
     def parse_for_sale(self, response):
         pass
-        
+
     def parse_to_rent(self, response):
         pass
