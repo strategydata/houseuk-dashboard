@@ -1,13 +1,15 @@
 
 import datetime
 from lxml import html
+
 import numpy as np
 import pandas as pd
 import requests
 
 
 class Rightmove:
-    """The `RightmoveData` webscraper collects structured data on properties
+    """ 
+    The `Rightmove` webscraper collects structured data on properties
     returned by a search performed on www.rightmove.co.uk
 
     An instance of the class provides attributes to access data from the search
@@ -15,7 +17,10 @@ class Rightmove:
     Pandas DataFrame object.
 
     The query to rightmove can be renewed by calling the `refresh_data` method.
+    
+    
     """
+    
     def __init__(self, url: str, get_floorplans: bool = False):
         """Initialize the scraper with a URL from the results of a property
         search performed on www.rightmove.co.uk.
@@ -33,7 +38,7 @@ class Rightmove:
 
     @staticmethod
     def _request(url: str):
-        """_request _summary_
+        """_request basemethod to wrap up requests.get contain fixed User-Agent
 
         Args:
             url (str): _description_
@@ -41,8 +46,9 @@ class Rightmove:
         Returns:
             _type_: _description_
         """
+        #TODO: change fix User-Agent to flexible one in future
         header={
-            "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+            "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
         }
         r = requests.get(url,headers=header)
         return r.status_code, r.content
@@ -99,6 +105,14 @@ class Rightmove:
         results which don't list a price)."""
         total = self.get_results["price"].dropna().sum()
         return total / self.results_count
+    
+    
+    @property
+    def median_price(self):
+        """median_price 
+            calculate median price of all results return by `get_results` ignoring results without prices
+        """
+        return self.get_results["price"].dropna().median()
 
     def summary(self, by: str = None):
         """DataFrame summarising results by mean price and count. Defaults to

@@ -6,8 +6,19 @@ authors = [{ name = "kang wang", email = "kangqiwang@outlook.com" }]
 requires-python = "~=3.13"
 readme = "README.md"
 
-dependencies = [
-]
+[tool.poetry.dependencies]
+python = "^3.9"
+mypy = "^1.9.0"
+requests = "^2.31.0"
+pandas = "^2.2.2"
+numpy = "^1.26.4"
+lxml = "^5.2.1"
+pyspark = "^3.5.1"
+apache-airflow-providers-cncf-kubernetes = "^8.1.1"
+sphinx = "^7.3.7"
+beautifulsoup4 = "^4.12.3"
+python-dateutil = "^2.9.0.post0"
+amber-data-utils = "^0.1.1"
 
 [dependency-groups]
 test = [
