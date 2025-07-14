@@ -6,8 +6,19 @@ authors = [{ name = "kang wang", email = "kangqiwang@outlook.com" }]
 requires-python = "~=3.13"
 readme = "README.md"
 
-dependencies = [
-]
+[tool.poetry.dependencies]
+python = "^3.9"
+mypy = "^1.9.0"
+requests = "^2.31.0"
+pandas = "^2.2.2"
+numpy = "^1.26.4"
+lxml = "^5.2.1"
+pyspark = "^3.5.1"
+apache-airflow-providers-cncf-kubernetes = "^8.1.1"
+sphinx = "^7.3.7"
+beautifulsoup4 = "^4.12.3"
+python-dateutil = "^2.9.0.post0"
+amber-data-utils = "^0.1.1"
 
 [dependency-groups]
 test = [
@@ -40,3 +51,39 @@ default-groups = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+
+
+[tool.codespell]
+ignore-words-list="""
+    Id,
+    iTerm,
+    couldn,
+"""
+
+[tool.ruff]
+line-length = 88
+exclude=[
+    ".git",
+    ".mypy_cache",
+    ".vscode",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+preview = true
+explicit-preview-rules = true
+extend-select=[
+    "A", # flake-builtins(A)
+    "CPY", # flake8-copyright(CPY)
+    "E", # pycodestule(E,W) Error(E)
+    "F",  # Pyflakes(F)
+    "I", # isort(I)
+    "N", # pep8-naming(N)
+    "PERF", # Perflint(PERF)
+    "PGH", # pygrep-hooks(PGH)
+    "RUF", # ruff-specific rules (RUF)
+    "T20", # flake8-print(T20)
+    "W", # pycodestule(E,W) Warning(W)
+    ]

@@ -1,11 +1,11 @@
 # house-data
 
-this repo contains house data for house buyers in uk
+this repo contains house data for house buyers in uk.  I 've deepened my expertise in creating Machine learning (ML) systems from [Data Talk Club](https://datatalks.club/). this project is presenting this journey, demonstrate my learning and skills
 
 ## Index
 
 ## Problem
-this is simple project thich takes data from the land registry and transforms it in order to visualize the best house 
+this is simple project thich takes data from the land registry and transforms it in order to visualize the best house
 
 ## Dataset
 The chosen dataset for this project land registry[https://landregistry.data.gov.uk/app/ppd/]. The dataset contains every single public transaction made by house transaction, from transaction info such as prices, house details
@@ -17,7 +17,7 @@ you may access the dashboard with the visualization in this link[http://amberdat
 
 ## Project details and implementation
 
-This projet makes use of Google Cloud Platform, particularly Cloud Storage and BigQuery.
+This project makes use of Google Cloud Platform, particularly Cloud Storage and BigQuery.
 
 Cloud infrastructure is mostly managed with Terraform, except for Airflow and dbt instances (detailed below in the reproduce the project section)
 
@@ -33,3 +33,4 @@ The following requirements are needed to reproduce the project :
 3. A SSH client
 
 
+## Data Extraction and Processing

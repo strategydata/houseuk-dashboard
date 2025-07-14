@@ -6,14 +6,12 @@
 import scrapy
 
 
-
-
 class RightmoveItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    _id=scrapy.Field()
+    _id = scrapy.Field()
     url = scrapy.Field()
-    price= scrapy.Field()
+    price = scrapy.Field()
     title = scrapy.Field()
     summary = scrapy.Field()
     tenure = scrapy.Field()
@@ -24,8 +22,9 @@ class RightmoveItem(scrapy.Item):
     property_type = scrapy.Field()
     council_tax_band = scrapy.Field()
     energy_performance_certificate = scrapy.Field()
-    listing_type= scrapy.Field()
+    listing_type = scrapy.Field()
     image_urls = scrapy.Field()
-    date_added= scrapy.Field()
+    date_added = scrapy.Field()
     phone = scrapy.Field()
-    email= scrapy.Field()
+    email = scrapy.Field()
+    catalog_url = scrapy.Field()

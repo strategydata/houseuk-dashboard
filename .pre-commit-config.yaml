@@ -1,0 +1,35 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+  - id: check-case-conflict
+  - id: check-json
+  - id: check-merge-conflict
+  - id: check-toml
+  - id: check-xml
+  - id: check-yaml
+  - id: detect-private-key
+  # check for existence of private keys
+  - id: end-of-file-fixer
+  - id: trailing-whitespace
+  # Trims trailing whitespace.
+
+- repo: https://github.com/woodruffw/zizmor-pre-commit
+  rev: v1.11.0
+  hooks:
+  - id: zizmor
+
+- repo: https://github.com/codespell-project/codespell
+  rev: v2.4.1
+  hooks:
+  - id: codespell
+    args: ['--write-changes']
+    additional_dependencies:
+    - 'tomli'
+
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.12.3
+  hooks:
+  - id: ruff-check
+    args: ["--fix", "--output-format=full"]
+  - id: ruff-format

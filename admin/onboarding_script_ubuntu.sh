@@ -39,7 +39,7 @@ echo "Creating a global gitignore.."
 
 ## install the dbt
 
-## Add in K9s installtion 
+## Add in K9s installation
 echo "Installing k9s .."
 sudo apt update
 sudo apt install snapd
@@ -48,6 +48,3 @@ sudo snap install k9s
 
 
 echo "Onboarding script ran successfully"
-
-
-

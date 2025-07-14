@@ -13,7 +13,7 @@ export PATH="$HOME/bin:/usr/local/bin:$PATH" >> ~/.zshrc
 export PATH="$HOME/.poetry/bin:$PATH" >> ~/.zshrc
 
 rm python-3.10.3-macos11.pkg
-echo "Python succesfully installed"
+echo "Python successfully installed"
 
 ## Install homebrew
 ## Check if exists
@@ -77,7 +77,7 @@ echo "Installing miniforge.."
 brew install miniforge
 echo "export PATH=/usr/local/mambaforge/bin:"$PATH"" >> ~/.bash_profile
 echo "export PATH=/usr/local/mambaforge/bin:"$PATH"" >> ~/.zshrc
-echo "miniforge installed succesfully"
+echo "miniforge installed successfully"
 
 ## Set up the computer to contribute to the handbook
 echo "Setting up your computer to contribute to the handbook..."
@@ -125,7 +125,7 @@ echo '.DS_Store' >> ~/.gitignore
 echo '.idea' >> ~/.gitignore
 echo "Global gitignore created"
 
-## Add in K9s installtion 
+## Add in K9s installation
 echo "Installing k9s .."
 
 brew install k9s
