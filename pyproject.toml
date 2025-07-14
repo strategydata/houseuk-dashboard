@@ -58,4 +58,20 @@ build-backend = "hatchling.build"
 [tool.codespell]
 ignore-words-list="""
     Id,
+    iTerm,
+    couldn,
 """
+
+[tool.ruff]
+line-length = 88
+exclude=[
+    ".git",
+    ".mypy_cache",
+    ".vscode",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+preview = true
+explicit-preview-rules = true
+extend-select=["E501", "W", "I", "CPY001", "PGH", "RUF"]

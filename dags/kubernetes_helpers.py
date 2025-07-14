@@ -8,18 +8,18 @@ def get_affinity_with_key_value(key, values):
                 "nodeSelectorTerms": [
                     {
                         "matchExpressions": [
-                            {"key": key, "operator": "In", "values": values}
-                        ]
-                    }
-                ]
-            }
-        }
+                            {"key": key, "operator": "In", "values": values},
+                        ],
+                    },
+                ],
+            },
+        },
     }
 
 
 def get_toleration_with_value(value):
     return [
-        {"key": value, "operator": "Equal", "value": "true", "effect": "NoSchedule"}
+        {"key": value, "operator": "Equal", "value": "true", "effect": "NoSchedule"},
     ]
 
 
@@ -36,7 +36,8 @@ extraction_affinity = get_affinity_with_key_value("extraction", ["true"])
 extraction_tolerations = get_toleration_with_value("extraction")
 
 extraction_highmem_affinity = get_affinity_with_key_value(
-    "extraction_highmem", ["true"]
+    "extraction_highmem",
+    ["true"],
 )
 extraction_highmem_tolerations = get_toleration_with_value("extraction_highmem")
 

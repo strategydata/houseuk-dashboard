@@ -1,15 +1,11 @@
-""" this file contains common operator/functions to be used across multiple DAGs"""
+"""this file contains common operator/functions to be used across multiple DAGs"""
 
 import os
-import urllib.parse
 import pathlib
+import urllib.parse
 from datetime import date, timedelta
-from typing import List, Dict
 
 from airflow.models import Variable
-
-
-
 from airflow.providers.slack.operators.slack import SlackAPIPostOperator
 from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
 
@@ -33,7 +29,7 @@ SALES_ANALYTICS_NOTEBOOKS_PATH = "houseuk-dashboard/sales_analytics_notebooks"
 AIRFLOW_SALES_ANALYTICS_NOTEBOOKS_PATH = f"{REPO_BASE_PATH}/sales_analytics_notebooks"
 
 
-def get_sales_analytics_notebooks(frequency: str) -> Dict:
+def get_sales_analytics_notebooks(frequency: str) -> dict:
     notebooks = []
     fileNames = []
 
@@ -47,7 +43,7 @@ def get_sales_analytics_notebooks(frequency: str) -> Dict:
         )
         fileNames.append(expanded_name)
 
-    return dict(zip(notebooks, fileNames))
+    return dict(zip(notebooks, fileNames, strict=False))
 
 
 analytics_pipelines_dag = [
@@ -81,7 +77,7 @@ sales_analytics_pipelines_dag = [
 ]
 
 
-def split_date_parts(day: date, partition: str) -> Dict:
+def split_date_parts(day: date, partition: str) -> dict:
     if partition == "month":
         split_dict = {
             "year": day.strftime("%Y"),
@@ -92,11 +88,8 @@ def split_date_parts(day: date, partition: str) -> Dict:
     return split_dict
 
 
-def partitions(from_date: date, to_date: date, partition: str) -> List[dict]:
-    """
-    A list of partitions to build.
-    """
-
+def partitions(from_date: date, to_date: date, partition: str) -> list[dict]:
+    """A list of partitions to build."""
     delta = to_date - from_date
     all_parts = [
         split_date_parts((from_date + timedelta(days=i)), partition)
@@ -114,9 +107,7 @@ def partitions(from_date: date, to_date: date, partition: str) -> List[dict]:
 
 
 class MultiSlackChannelOperator:
-    """
-    Class that enables sending notifications to multiple Slack channels
-    """
+    """Class that enables sending notifications to multiple Slack channels"""
 
     def __init__(self, channels, context):
         self.channels = channels
@@ -124,7 +115,8 @@ class MultiSlackChannelOperator:
 
     def execute(self):
         attachment, slack_channel, task_id, task_text = slack_defaults(
-            self.context, "failure"
+            self.context,
+            "failure",
         )
         for c in self.channels:
             slack_alert = SlackAPIPostOperator(
@@ -140,9 +132,7 @@ class MultiSlackChannelOperator:
 
 
 def slack_defaults(context, task_type):
-    """
-    Function to handle switching between a task failure and success.
-    """
+    """Function to handle switching between a task failure and success."""
     base_url = "http://34.83.216.69:443/"
     execution_date = context["ts"]
     dag_context = context["dag"]
@@ -153,12 +143,12 @@ def slack_defaults(context, task_type):
     execution_date_value = context["execution_date"]
     execution_date_epoch = execution_date_value.strftime("%s")
     execution_date_pretty = execution_date_value.strftime(
-        "%a, %b %d, %Y at %-I:%M %p UTC"
+        "%a, %b %d, %Y at %-I:%M %p UTC",
     )
 
     # Generate the link to the logs
     log_params = urllib.parse.urlencode(
-        {"dag_id": dag_id, "task_id": task_id, "execution_date": execution_date}
+        {"dag_id": dag_id, "task_id": task_id, "execution_date": execution_date},
     )
     log_link = f"{base_url}/log?{log_params}"
     log_link_markdown = f"<{log_link}|View Logs>"
@@ -168,7 +158,8 @@ def slack_defaults(context, task_type):
             slack_channel = "#data-lounge"
         else:
             slack_channel = dag_context.params.get(
-                "slack_channel_override", "#analytics-pipelines"
+                "slack_channel_override",
+                "#analytics-pipelines",
             )
 
         color = "#1aaa55"
@@ -185,7 +176,8 @@ def slack_defaults(context, task_type):
             slack_channel = "#sales-analytics-pipelines"
         else:
             slack_channel = dag_context.params.get(
-                "slack_channel_override", "#data-pipelines"
+                "slack_channel_override",
+                "#data-pipelines",
             )
         color = "#a62d19"
         fallback = "An Airflow DAG has failed!"
@@ -206,18 +198,18 @@ def slack_defaults(context, task_type):
             "footer": "Airflow",
             "footer_icon": "https://airflow.gitlabdata.com/static/pin_100.png",
             "ts": execution_date_epoch,
-        }
+        },
     ]
     return attachment, slack_channel, task_id, task_text
 
 
 def slack_snapshot_failed_task(context):
-    """
-    Function to be used as a callable for on_failure_callback for dbt-snapshots
+    """Function to be used as a callable for on_failure_callback for dbt-snapshots
     Send a Slack alert to #analytics-pipelines
     """
     multi_channel_alert = MultiSlackChannelOperator(
-        channels=["#analytics-pipelines"], context=context
+        channels=["#analytics-pipelines"],
+        context=context,
     )
 
     return multi_channel_alert.execute()
@@ -237,11 +229,9 @@ def slack_webhook_conn(slack_channel):
 
 
 def slack_failed_task(context):
-    """
-    Function to be used as a callable for on_failure_callback.
+    """Function to be used as a callable for on_failure_callback.
     Send a Slack alert.
     """
-
     attachment, slack_channel, task_id, task_text = slack_defaults(context, "failure")
     airflow_http_con_id, slack_webhook = slack_webhook_conn(slack_channel)
 
@@ -258,11 +248,9 @@ def slack_failed_task(context):
 
 
 def slack_succeeded_task(context):
-    """
-    Function to be used as a callable for on_success_callback.
+    """Function to be used as a callable for on_success_callback.
     Send a Slack alert.
     """
-
     attachment, slack_channel, task_id, task_text = slack_defaults(context, "success")
     airflow_http_con_id, slack_webhook = slack_webhook_conn(slack_channel)
 

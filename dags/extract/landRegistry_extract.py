@@ -1,19 +1,15 @@
 import os
-import logging
 from datetime import datetime, timedelta
-from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
-from dags.kubernetes_helpers import get_affinity, get_toleration
 
 from airflow import DAG
-
+from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow_utils import (
     DATA_IMAGE,
     clone_and_setup_extraction_cmd,
     gitlab_defaults,
-    slack_failed_task,
     gitlab_pod_env_vars,
+    slack_failed_task,
 )
-
 from kube_secrets import (
     BAMBOOHR_API_TOKEN,
     SNOWFLAKE_ACCOUNT,
@@ -24,14 +20,14 @@ from kube_secrets import (
     SNOWFLAKE_LOAD_WAREHOUSE,
 )
 
+from dags.kubernetes_helpers import get_affinity, get_toleration
 
 # Load the env vars into a dict and set Secrets
 env = os.environ.copy()
 pod_env_vars = gitlab_pod_env_vars
 
 
-
-default_args={
+default_args = {
     "depends_on_past": False,
     "on_failure_callback": slack_failed_task,
     "owner": "airflow",
