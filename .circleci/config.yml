@@ -1,0 +1,57 @@
+# This config was automatically generated from your source code
+# Stacks detected: deps:java:.,deps:python:.,package_manager:poetry:.
+version: 2.1
+orbs:
+  python: circleci/python@2
+jobs:
+  test-java:
+    docker:
+      - image: cimg/openjdk:17.0
+    steps:
+      - checkout
+      - run:
+          name: Calculate cache key
+          command: |-
+            find . -name 'pom.xml' -o -name 'gradlew*' -o -name '*.gradle*' | \
+                    sort | xargs cat > /tmp/CIRCLECI_CACHE_KEY
+      - restore_cache:
+          key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
+      - run:
+          command: mvn verify
+      - store_test_results:
+          path: target/surefire-reports
+      - save_cache:
+          key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
+          paths:
+            - ~/.m2/repository
+  test-python:
+    # Install dependencies and run tests
+    docker:
+      - image: cimg/python:3.9-node
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: poetry
+      - run:
+          name: Run tests
+          command: poetry run pytest --junitxml=junit.xml || ((($? == 5)) && echo 'Did not find any tests to run.')
+      - store_test_results:
+          path: junit.xml
+  deploy:
+    # This is an example deploy job, not actually used by the workflow
+    docker:
+      - image: cimg/base:stable
+    steps:
+      # Replace this with steps to deploy to users
+      - run:
+          name: deploy
+          command: '#e.g. ./deploy.sh'
+workflows:
+  build-and-test:
+    jobs:
+      - test-java
+      - test-python
+    # - deploy:
+    #     requires:
+    #       - test-java
+    #       - test-python
