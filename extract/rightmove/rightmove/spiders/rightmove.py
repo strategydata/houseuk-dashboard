@@ -11,13 +11,12 @@ class RightmoveSpider(scrapy.SitemapSpider):
     name = "rightmove"
     sitemap_urls = ["https://www.rightmove.co.uk/sitemap.xml"]
     sitemap_rules = [
-        (r"\/property-for-sale\/([a-zA-Z]+\d+)+\.html", "parse_for_sale"),
-        (r"\/property-to-rent\/([a-zA-Z]+\d+)+\.html", "parse_to_rent"),
+        (r"\/property-for-sale\/([a-zA-Z]+\d+)+\.html", "parse"),
+        (r"\/property-to-rent\/([a-zA-Z]+\d+)+\.html", "parse"),
     ]
     index_number = 0
     # increment = 24  # Number of items to increment for pagination
-
-    def parse_for_sale(self, response):
+    def parse(self, response):
         # Extract the outcode from the URL
         headers = {
             "Accept": "*/*",
@@ -26,7 +25,9 @@ class RightmoveSpider(scrapy.SitemapSpider):
             "Connection": "keep-alive",
             "Host": "www.rightmove.co.uk",
         }
-
+        let_or_sales="sales"
+        if "property-to-rent" in response.url:
+            let_or_sales="rent"
         homes = response.css('[class^="PropertyCard_propertyCardContainer_"]')
         if not homes:
             logger.debug(f"Ignoring no items response for URL: {response.url}")
@@ -64,6 +65,7 @@ class RightmoveSpider(scrapy.SitemapSpider):
             ).get()
             items["email"] = home.css('[class^="Contact_emailLink_"]::attr(href)').get()
             items["catalog_url"] = response.url
+            items["let_or_sales"]=let_or_sales
             yield items
         total = int(
             response.css('[class^="ResultsCount_resultsCount_"] p span::text').get()
@@ -79,9 +81,5 @@ class RightmoveSpider(scrapy.SitemapSpider):
             method="GET",
             url=next_page,
             headers=headers,
-            callback=self.parse_for_sale,
+            callback=self.parse,
         )
-
-    def parse_to_rent(self, response):
-        # Extract the outcode from the URL
-        pass
