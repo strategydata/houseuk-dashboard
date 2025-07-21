@@ -1,13 +1,18 @@
 import logging
 import scrapy
-from rightmove.items import RightmoveItem
-from rightmove.misc.url_utils import update_param
+import scrapy.spiders
+
+from extract.rightmove.rightmove.items import RightmoveItem
+from extract.rightmove.rightmove.misc.url_utils import update_param
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-class RightmoveSpider(scrapy.SitemapSpider):
+class RightmoveSpider(scrapy.spiders.SitemapSpider):
+    """
+    rightmove 
+    """
     name = "rightmove"
     sitemap_urls = ["https://www.rightmove.co.uk/sitemap.xml"]
     sitemap_rules = [
@@ -35,12 +40,10 @@ class RightmoveSpider(scrapy.SitemapSpider):
         for home in homes:
             items = RightmoveItem()
             items["url"] = (
-                "https://www.rightmove.co.uk"
-                + home.css("a.propertyCard-link::attr(href)").get()
+                home.css("a.propertyCard-link::attr(href)").get()
             )
-            items["price"] = int(
-                home.css('[class^="PropertyPrice_price_"]::text').get()
-            )
+            items["price"] = home.css('[class^="PropertyPrice_price_"]::text').get()
+            
             items["title"] = home.xpath("//address/text()").get()
             items["date_added"] = home.css(
                 '[class^="MarketedBy_joinedText_"]::text'
@@ -51,7 +54,7 @@ class RightmoveSpider(scrapy.SitemapSpider):
             items["bedrooms"] = home.css(
                 '[class^="PropertyInformation_bedroomsCount_"]::text'
             ).get()
-            items["bathooms"] = home.css(
+            items["bathrooms"] = home.css(
                 '[class^="PropertyInformation_bathContainer_"] span::text'
             ).get()
             items["phone"] = home.css(
