@@ -1,30 +1,24 @@
 [project]
-name = "houseuk-dashboard"
+name = "houseuk_dashboard"
 version = "0.1.0"
 description = ""
 authors = [{ name = "kang wang", email = "kangqiwang@outlook.com" }]
-requires-python = "~=3.13"
+requires-python = ">=3.12"
 readme = "README.md"
 
-[tool.poetry.dependencies]
-python = "^3.9"
-mypy = "^1.9.0"
-requests = "^2.31.0"
-pandas = "^2.2.2"
-numpy = "^1.26.4"
-lxml = "^5.2.1"
-pyspark = "^3.5.1"
-apache-airflow-providers-cncf-kubernetes = "^8.1.1"
-sphinx = "^7.3.7"
-beautifulsoup4 = "^4.12.3"
-python-dateutil = "^2.9.0.post0"
-amber-data-utils = "^0.1.1"
+dependencies = [
+    "numpy>=2.2.6",
+    "pyperf>=2.9.0",
+    "scrapy>=2.13.3",
+    "vulture>=2.14",
+    "xenon>=0.9.3",
+    "pre-commit>=4.2.0,<5",
+]
 
 [dependency-groups]
 test = [
     "pytest>=8.4.1,<9",
     "coverage>=7.9.2,<8",
-    "pre-commit>=4.2.0,<5",
     "pytest-doctestplus>=1.4.0,<2",
 ]
 docs = [
@@ -48,11 +42,11 @@ default-groups = [
     "docs",
 ]
 
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.pytest.ini_options]
 
 
 [tool.codespell]
@@ -87,3 +81,14 @@ extend-select=[
     "T20", # flake8-print(T20)
     "W", # pycodestule(E,W) Warning(W)
     ]
+
+[tool.ruff.format]
+    indent-style="space"
+    quote-style="double"
+    line-ending="auto"
+
+[tool.pytest.ini_options]
+log_cli=true
+log_cli_level="INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"

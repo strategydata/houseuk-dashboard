@@ -1,123 +1,45 @@
-import pandas as pd
 import pytest
+import logging
+import os
+from scrapy.http import HtmlResponse
 
-from rightmove.src.api import Rightmove
+from extract.rightmove.rightmove.spiders.rightmove import RightmoveSpider
 
-base_url = "https://www.rightmove.co.uk/"
-required_columns = {
-    "address",
-    "agent_url",
-    "number_bedrooms",
-    "postcode",
-    "price",
-    "search_date",
-    "type",
-    "url",
-}
+logger = logging.getLogger(__name__)
 
+@pytest.fixture
+def html_file():
+    filepath = os.path.join(os.path.dirname(__file__), "template","Properties For Sale in W10 _ Rightmove.html")
+    with open(filepath, encoding="utf-8") as f:
+        return f.read()
 
-def test_sale_residential():
-    """Test a search on residential properties for sale."""
-    url = f"{base_url}property-for-sale/find.html?searchType=SALE&locationIdentifier=REGION%5E1195&inside=1"
-    rm = Rightmove(url)
-    assert isinstance(rm.average_price, float)
-    assert isinstance(rm.get_results, pd.DataFrame)
-    assert required_columns.issubset(set(rm.get_results.columns))
-    assert len(rm.get_results) > 0
-    assert isinstance(rm.page_count, int)
-    assert rm.rent_or_sale == "sale"
-    assert isinstance(rm.results_count, int)
-    assert isinstance(rm.results_count_display, int)
-    assert url == rm.url
-    df = rm.summary()
-    assert isinstance(df, pd.DataFrame)
-    assert {"number_bedrooms", "count", "mean"}.issubset(set(df.columns))
-    assert len(df) > 0
-    for c in required_columns:
-        df = rm.summary(by=c)
-        assert isinstance(df, pd.DataFrame)
-        assert {c, "count", "mean"}.issubset(set(df.columns))
-        assert len(df) > 0
+@pytest.fixture(scope="session")
+def spider():
+    return RightmoveSpider()
+
+@pytest.fixture
+def response(html_file):
+        return HtmlResponse(
+        url="https://www.rightmove.co.uk/property-for-sale/W10.html",
+        body=html_file,
+        encoding="utf-8"
+    )
 
 
-def test_rent_residential():
-    """Test a search on residential properties for rent."""
-    url = f"{base_url}property-to-rent/find.html?searchType=RENT&locationIdentifier=REGION%5E94346"
-    rm = Rightmove(url)
-    assert isinstance(rm.average_price, float)
-    assert isinstance(rm.get_results, pd.DataFrame)
-    assert required_columns.issubset(set(rm.get_results.columns))
-    assert len(rm.get_results) > 0
-    assert isinstance(rm.page_count, int)
-    assert rm.rent_or_sale == "rent"
-    assert isinstance(rm.results_count, int)
-    assert isinstance(rm.results_count_display, int)
-    assert url == rm.url
-    df = rm.summary()
-    assert isinstance(df, pd.DataFrame)
-    assert {"number_bedrooms", "count", "mean"}.issubset(set(df.columns))
-    assert len(df) > 0
-    for c in required_columns:
-        df = rm.summary(by=c)
-        assert isinstance(df, pd.DataFrame)
-        assert {c, "count", "mean"}.issubset(set(df.columns))
-        assert len(df) > 0
-
-
-def test_sale_commercial():
-    """Test a search on commercial properties for sale."""
-    url = f"{base_url}commercial-property-for-sale/find.html?searchType=SALE&locationIdentifier=REGION%5E70417"
-    rm = Rightmove(url)
-    assert isinstance(rm.average_price, float)
-    assert isinstance(rm.get_results, pd.DataFrame)
-    assert required_columns.issubset(set(rm.get_results.columns))
-    assert len(rm.get_results) > 0
-    assert isinstance(rm.page_count, int)
-    assert rm.rent_or_sale == "sale-commercial"
-    assert isinstance(rm.results_count, int)
-    assert isinstance(rm.results_count_display, int)
-    assert url == rm.url
-    df = rm.summary()
-    assert isinstance(df, pd.DataFrame)
-    assert {"type", "count", "mean"}.issubset(set(df.columns))
-    assert len(df) > 0
-    for c in required_columns:
-        if c == "number_bedrooms":
-            continue
-        df = rm.summary(by=c)
-        assert isinstance(df, pd.DataFrame)
-        assert {c, "count", "mean"}.issubset(set(df.columns))
-        assert len(df) > 0
-
-
-def test_rent_commercial():
-    """Test a search on commercial properties for rent."""
-    url = f"{base_url}commercial-property-to-let/find.html?searchType=RENT&locationIdentifier=REGION%5E70417"
-    rm = Rightmove(url)
-    assert isinstance(rm.average_price, float)
-    assert isinstance(rm.get_results, pd.DataFrame)
-    assert required_columns.issubset(set(rm.get_results.columns))
-    assert len(rm.get_results) > 0
-    assert isinstance(rm.page_count, int)
-    assert rm.rent_or_sale == "rent-commercial"
-    assert isinstance(rm.results_count, int)
-    assert isinstance(rm.results_count_display, int)
-    assert url == rm.url
-    df = rm.summary()
-    assert isinstance(df, pd.DataFrame)
-    assert {"type", "count", "mean"}.issubset(set(df.columns))
-    assert len(df) > 0
-    for c in required_columns:
-        if c == "number_bedrooms":
-            continue
-        df = rm.summary(by=c)
-        assert isinstance(df, pd.DataFrame)
-        assert {c, "count", "mean"}.issubset(set(df.columns))
-        assert len(df) > 0
-
-
-def test_bad_url():
-    """Test a bad URL raises a value error."""
-    bad_url = "https://www.rightmove.co.uk/property"
-    with pytest.raises(ValueError):
-        _ = Rightmove(bad_url)
+def test_parse(spider,response):
+    results = list(spider.parse(response))
+    assert len(results) == 26
+    item=results[0]
+    assert item["url"] == "https://www.rightmove.co.uk/properties/163873952#/?channel=RES_BUY"
+    assert item["price"] == "£625,000"
+    assert item["address"] =="St. Charles Square, London,  W10, W10"
+    assert item["bathrooms"] =="1"
+    assert item["bedrooms"] =="2"
+    assert item["catalog_url"] =="https://www.rightmove.co.uk/property-for-sale/W10.html"
+    assert item["let_or_sales"]=="sales"
+    assert item["phone"]=="020 3871 3433"
+    assert item["property_type"]== "Flat"
+    assert item["summary"] =="""A two bedroom flat with a reception room with a bay window. The property is located within 0.5 miles to Ladbroke Grove, Golborne Road, Portobello Road and all the other amenities of Notting Hill."""
+    next_request=results[-1]
+    assert "index=24" in next_request.url
+    

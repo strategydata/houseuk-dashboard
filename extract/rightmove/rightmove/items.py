@@ -18,7 +18,7 @@ class RightmoveItem(scrapy.Item):
     address = scrapy.Field()
     size = scrapy.Field()
     bedrooms = scrapy.Field()
-    bathooms = scrapy.Field()
+    bathrooms = scrapy.Field()
     property_type = scrapy.Field()
     council_tax_band = scrapy.Field()
     energy_performance_certificate = scrapy.Field()
@@ -28,3 +28,4 @@ class RightmoveItem(scrapy.Item):
     phone = scrapy.Field()
     email = scrapy.Field()
     catalog_url = scrapy.Field()
+    let_or_sales=scrapy.Field()
