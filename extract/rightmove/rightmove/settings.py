@@ -14,6 +14,29 @@ NEWSPIDER_MODULE = "rightmove.spiders"
 
 ADDONS = {}
 
+FEED_EXPORTER = {
+    "parquet": "zuinnote.scrapy.contrib.bigexporters.ParquetItemExporter"
+}
+
+FEEDS = {
+'tmp/data-%(name)s-%(time)s.parquet': {
+        'format': 'parquet',
+        'encoding': 'utf8',
+        'store_empty': False,
+        'item_export_kwargs': {
+           'compression': 'GZIP',
+           'times': 'int64',
+           'hasnulls': True,
+           'convertallstrings': False,
+           'writeindex': False,
+           'objectencoding': 'infer',
+           'rowgroupoffset': 50000000,
+           'items_rowgroup': 10000
+        },
+    }
+}
+
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "rightmove (+http://www.yourdomain.com)"
@@ -90,4 +113,4 @@ ROBOTSTXT_OBEY = True
 # HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
 # Set settings whose default value is deprecated to a future-proof value
-FEED_EXPORT_ENCODING = "utf-8"
+# FEED_EXPORT_ENCODING = "utf-8"
