@@ -42,7 +42,7 @@ class RightmoveSpider(scrapy.spiders.SitemapSpider):
             loader = ItemLoader(item =RightmoveItem(),selector=home)
             loader.add_css("url", "a.propertyCard-link::attr(href)")
             loader.add_css("price", '[class^="PropertyPrice_price_"]::text')
-            loader.add_xpath("title", "//address/text()")
+            loader.add_xpath("title", ".//address/text()")
             loader.add_css("date_added", '[class^="MarketedBy_joinedText_"]::text')
             loader.add_css("property_type", '[class^="PropertyInformation_propertyType_"]::text')
             loader.add_css("bedrooms", '[class^="PropertyInformation_bedroomsCount_"]::text')
