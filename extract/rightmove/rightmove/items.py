@@ -28,4 +28,4 @@ class RightmoveItem(scrapy.Item):
     phone = scrapy.Field()
     email = scrapy.Field()
     catalog_url = scrapy.Field()
-    let_or_sales=scrapy.Field()
+    let_or_sales = scrapy.Field()

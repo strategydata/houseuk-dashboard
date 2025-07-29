@@ -24,3 +24,5 @@ __pycache__
 uv.lock
 docs/*
 extract/tests/template/*
+*.json
+*.jl
