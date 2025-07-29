@@ -14,7 +14,6 @@ class RightmoveItem(scrapy.Item):
     price = scrapy.Field()
     title = scrapy.Field()
     summary = scrapy.Field()
-    tenure = scrapy.Field()
     address = scrapy.Field()
     size = scrapy.Field()
     bedrooms = scrapy.Field()
