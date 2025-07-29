@@ -2,6 +2,7 @@ import logging
 import scrapy
 import scrapy.spiders
 
+from scrapy.loader import ItemLoader
 from extract.rightmove.rightmove.items import RightmoveItem
 from extract.rightmove.rightmove.misc.url_utils import update_param
 
@@ -32,44 +33,27 @@ class RightmoveSpider(scrapy.spiders.SitemapSpider):
             "Connection": "keep-alive",
             "Host": "www.rightmove.co.uk",
         }
-        let_or_sales = "sales"
-        if "property-to-rent" in response.url:
-            let_or_sales = "rent"
+        let_or_sales = "sales" if "property-to-rent" in response.url else "rent"
         homes = response.css('[class^="PropertyCard_propertyCardContainer_"]')
         if not homes:
             logger.debug(f"Ignoring no items response for URL: {response.url}")
             return
         for home in homes:
-            items = RightmoveItem()
-            items["url"] = home.css("a.propertyCard-link::attr(href)").get()
-            items["price"] = home.css('[class^="PropertyPrice_price_"]::text').get()
-
-            items["title"] = home.xpath("//address/text()").get()
-            items["date_added"] = home.css(
-                '[class^="MarketedBy_joinedText_"]::text'
-            ).get()
-            items["property_type"] = home.css(
-                '[class^="PropertyInformation_propertyType_"]::text'
-            ).get()
-            items["bedrooms"] = home.css(
-                '[class^="PropertyInformation_bedroomsCount_"]::text'
-            ).get()
-            items["bathrooms"] = home.css(
-                '[class^="PropertyInformation_bathContainer_"] span::text'
-            ).get()
-            items["phone"] = home.css(
-                '[class^="CallAgent_test_"] > a:nth-child(2) > span:nth-child(1)::text'
-            ).get()
-            items["address"] = home.css(
-                '[class^="PropertyAddress_address_"]::text'
-            ).get()
-            items["summary"] = home.css(
-                '[class^="PropertyCardSummary_summary_"]::text'
-            ).get()
-            items["email"] = home.css('[class^="Contact_emailLink_"]::attr(href)').get()
-            items["catalog_url"] = response.url
-            items["let_or_sales"] = let_or_sales
-            yield items
+            loader = ItemLoader(item =RightmoveItem(),selector=home)
+            loader.add_css("url", "a.propertyCard-link::attr(href)")
+            loader.add_css("price", '[class^="PropertyPrice_price_"]::text')
+            loader.add_xpath("title", "//address/text()")
+            loader.add_css("date_added", '[class^="MarketedBy_joinedText_"]::text')
+            loader.add_css("property_type", '[class^="PropertyInformation_propertyType_"]::text')
+            loader.add_css("bedrooms", '[class^="PropertyInformation_bedroomsCount_"]::text')
+            loader.add_css("bathrooms", '[class^="PropertyInformation_bathContainer_"] span::text')
+            loader.add_css("phone", '[class^="CallAgent_test_"] > a:nth-child(2) > span:nth-child(1)::text')
+            loader.add_css("address", '[class^="PropertyAddress_address_"]::text')
+            loader.add_css("summary", '[class^="PropertyCardSummary_summary_"]::text')
+            loader.add_css("email", '[class^="Contact_emailLink_"]::attr(href)')
+            loader.add_value("catalog_url", response.url)
+            loader.add_value("let_or_sales", let_or_sales)
+            yield loader.load_item()
         total = int(
             response.css('[class^="ResultsCount_resultsCount_"] p span::text').get()
         )

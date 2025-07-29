@@ -6,6 +6,7 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+from rightmove.items import RightmoveItem
 
 BOT_NAME = "rightmove"
 
@@ -14,30 +15,19 @@ NEWSPIDER_MODULE = "rightmove.spiders"
 
 ADDONS = {}
 
-FEED_EXPORTER = {
-    "parquet": "zuinnote.scrapy.contrib.bigexporters.ParquetItemExporter"
-}
-
-FEEDS = {
-'tmp/data-%(name)s-%(time)s.parquet': {
-        'format': 'parquet',
+FEEDS={
+    "data/%(name)s/%(name)s_batch_%(batch_time)s.jl":{
+        'format': 'jsonlines',
         'encoding': 'utf8',
         'store_empty': False,
+        'fields': None,
+        'indent': 4,
         'item_export_kwargs': {
-           'compression': 'GZIP',
-           'times': 'int64',
-           'hasnulls': True,
-           'convertallstrings': False,
-           'writeindex': False,
-           'objectencoding': 'infer',
-           'rowgroupoffset': 50000000,
-           'items_rowgroup': 10000
+           'export_empty_fields': True,
         },
+        'batch_item_count': 1000,
     }
 }
-
-
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "rightmove (+http://www.yourdomain.com)"
 
@@ -69,9 +59,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
-#    "rightmove.middlewares.RightmoveSpiderMiddleware": 543,
-# }
+SPIDER_MIDDLEWARES = {
+   "rightmove.middlewares.RightmoveSpiderMiddleware": 543,
+}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
@@ -87,9 +77,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    "rightmove.pipelines.RightmovePipeline": 300,
-# }
+ITEM_PIPELINES = {
+   "rightmove.pipelines.RightmovePipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -113,4 +103,6 @@ ROBOTSTXT_OBEY = True
 # HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
 # Set settings whose default value is deprecated to a future-proof value
-# FEED_EXPORT_ENCODING = "utf-8"
+FEED_EXPORT_ENCODING = "utf-8"
+LOG_FILE="log.log"
+LOG_LEVEL= "INFO"
