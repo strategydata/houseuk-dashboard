@@ -1,28 +1,35 @@
-.project
-.settings/
-target/
-*.idea
-*.csv
-.env
+# Python bytecode and chache files
+*/__pycache__
+__pycache__
 .pytest_cache
+.tmp
+extract/tests/template/*
+
+# Env files
+.env
+*/*.env
+.rightmoveEnv
+
+
+# System files
+*.DS_Store
+.vscode/
+*.idea
+
+# Logs files
+*.log
+
+# Configuration and sensitive files
+*.jl
+*.json
+*.jsonl
 *.csv
 *.csv.gz
-*.log
-poetry.lock
-.gitignore
-.idea
-.mvn
-.vscode
-.rightmoveEnv
-.venv
-.vscode
-.mvn
-__pycache__/*
-*.pyc
-.vscode
-__pycache__
+
+
+# Other files
+.tox
+.cache
+.coverage
 uv.lock
-docs/*
-extract/tests/template/*
-*.json
-*.jl
+
