@@ -6,7 +6,15 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-from rightmove.items import RightmoveItem
+from logging.handlers import TimedRotatingFileHandler
+from scrapy.utils.log import configure_logging
+import logging
+from datetime import datetime
+current = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+logHandler = TimedRotatingFileHandler(f'logs/scrapyLog_{current}.log', when='midnight', interval=1)
+logHandler.setLevel(logging.INFO)
+configure_logging(install_root_handler=False)
+logging.basicConfig(handlers=[logHandler],level=logging.INFO)
 
 BOT_NAME = "rightmove"
 
@@ -103,6 +111,3 @@ ITEM_PIPELINES = {
 # HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
 # Set settings whose default value is deprecated to a future-proof value
-FEED_EXPORT_ENCODING = "utf-8"
-LOG_FILE="log.log"
-LOG_LEVEL= "INFO"
