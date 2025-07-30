@@ -21,7 +21,7 @@ class RightmoveSpider(scrapy.spiders.SitemapSpider):
         (r"\/property-for-sale\/([a-zA-Z]+\d+)+\.html", "parse"),
         (r"\/property-to-rent\/([a-zA-Z]+\d+)+\.html", "parse"),
     ]
-    index_number = 0
+    
 
     # increment = 24  # Number of items to increment for pagination
     def parse(self, response):
@@ -42,7 +42,7 @@ class RightmoveSpider(scrapy.spiders.SitemapSpider):
             loader = ItemLoader(item =RightmoveItem(),selector=home)
             loader.add_css("url", "a.propertyCard-link::attr(href)")
             loader.add_css("price", '[class^="PropertyPrice_price_"]::text')
-            loader.add_xpath("title", "//address/text()")
+            loader.add_xpath("title", ".//address/text()")
             loader.add_css("date_added", '[class^="MarketedBy_joinedText_"]::text')
             loader.add_css("property_type", '[class^="PropertyInformation_propertyType_"]::text')
             loader.add_css("bedrooms", '[class^="PropertyInformation_bedroomsCount_"]::text')
@@ -55,15 +55,12 @@ class RightmoveSpider(scrapy.spiders.SitemapSpider):
             loader.add_value("let_or_sales", let_or_sales)
             yield loader.load_item()
         total = int(
-            response.css('[class^="ResultsCount_resultsCount_"] p span::text').get()
+            response.css('[class^="ResultsCount_resultsCount_"] p span::text').get().replace(",","")
         )
         logger.debug(f"Total properties found: {total}")
-        self.index_number = self.index_number + 24
-        next_page = update_param(response.url, "index", self.index_number)
-
-        # next_page = f"{response.url}?index={self.index_number}"
+        current_index = response.meta["index"]+24 if "index" in response.meta else 24
+        next_page = update_param(response.url, "index", current_index)
         logger.debug(f"Next page URL: {next_page}")
-        logger.debug(f"Next self.index_number: {self.index_number}")
         yield scrapy.Request(
             method="GET",
             url=next_page,
