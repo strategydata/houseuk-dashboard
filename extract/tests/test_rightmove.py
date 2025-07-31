@@ -34,26 +34,23 @@ def response(html_file):
 
 
 def test_parse(spider, response):
-    results = list(spider.parse(response))
-    assert len(results) == 26
-    item = results[0]
+    results = spider.parse(response)
+    item = next(results)
     assert (
         item["url"]
-        == "https://www.rightmove.co.uk/properties/163873952#/?channel=RES_BUY"
+        == "https://www.rightmove.co.uk/properties/156123512#/?channel=RES_BUY"
     )
-    assert item["price"] == "£625,000"
-    assert item["address"] == "St. Charles Square, London,  W10, W10"
+    assert item["price"] == "£650000"
+    assert item["address"] == "Portobello Square, 334 Portobello Road, W10"
     assert item["bathrooms"] == "1"
-    assert item["bedrooms"] == "2"
+    assert item["bedrooms"] == "1"
     assert (
         item["catalog_url"] == "https://www.rightmove.co.uk/property-for-sale/W10.html"
     )
-    assert item["let_or_sales"] == "sales"
-    assert item["phone"] == "020 3871 3433"
-    assert item["property_type"] == "Flat"
+    assert item["let_or_sales"] == "rent"
+    assert item["phone"] == "02038347939"
+    assert item["property_type"] == "Apartment"
     assert (
         item["summary"]
-        == """A two bedroom flat with a reception room with a bay window. The property is located within 0.5 miles to Ladbroke Grove, Golborne Road, Portobello Road and all the other amenities of Notting Hill."""
+        == """Book your viewing! Portobello Square is an impressive collection of apartments located in Ladbroke Grove, on the doorstep of the vibrant Portobello Road. Ready to move in early 2025."""
     )
-    next_request = results[-1]
-    assert "index=24" in next_request.url

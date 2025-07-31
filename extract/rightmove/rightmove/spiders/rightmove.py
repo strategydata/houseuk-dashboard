@@ -2,7 +2,7 @@ import logging
 import scrapy
 import scrapy.spiders
 
-from scrapy.loader import ItemLoader
+from extract.rightmove.rightmove.itemsloaders import RightmoveItemLoader
 from extract.rightmove.rightmove.items import RightmoveItem
 from extract.rightmove.rightmove.misc.url_utils import update_param
 
@@ -38,7 +38,7 @@ class RightmoveSpider(scrapy.spiders.SitemapSpider):
             logger.debug(f"Ignoring no items response for URL: {response.url}")
             return
         for home in homes:
-            loader = ItemLoader(item=RightmoveItem(), selector=home)
+            loader = RightmoveItemLoader(item=RightmoveItem(), selector=home)
             loader.add_css("url", "a.propertyCard-link::attr(href)")
             loader.add_css("price", '[class^="PropertyPrice_price_"]::text')
             loader.add_xpath("title", ".//address/text()")
@@ -68,7 +68,7 @@ class RightmoveSpider(scrapy.spiders.SitemapSpider):
             .replace(",", "")
         )
         logger.debug(f"Total properties found: {total}")
-        current_index = response.meta["index"] + 24 if "index" in response.meta else 24
+        current_index = response.meta["index"] + 24 if "index" in response.url else 24
         next_page = update_param(response.url, "index", current_index)
         logger.debug(f"Next page URL: {next_page}")
         yield scrapy.Request(
