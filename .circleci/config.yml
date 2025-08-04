@@ -1,0 +1,50 @@
+version: 2.1
+
+jobs:
+
+  # The following job is to run any image comparison test, and runs on any branch
+  # or in any pull request. It will generate a summary page for each tox environment
+  # being run, and giles will report the URL of the summary page back to the pull
+  # request (alternatively you can find the summary page in the artifacts in the
+  # CircleCI UI).
+  figure:
+    parameters:
+      jobname:
+        type: string
+    docker:
+      - image: cimg/python:3.11
+    environment:
+      TOXENV=<< parameters.jobname >>
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+              pip install pip tox --upgrade
+      - run:
+          name: Run tests
+          command: tox -v
+      - run:
+          name: Upload coverage results to codecov
+          command: |
+            curl -Os https://uploader.codecov.io/latest/linux/codecov
+            chmod +x codecov
+            ./codecov -t ${CODECOV_TOKEN} -f coverage.xml
+      - store_artifacts:
+          path: results
+      - run:
+          name: "Image comparison page is available at: "
+          command: echo "${CIRCLE_BUILD_URL}/artifacts/${CIRCLE_NODE_INDEX}/results/fig_comparison.html"
+
+workflows:
+  version: 2
+
+  figure-tests:
+    jobs:
+      - figure:
+          name: << matrix.jobname >>
+          matrix:
+            parameters:
+              jobname:
+                - "py311-test-image-mpl380-cov"
+                - "py311-test-image-mpldev-cov"

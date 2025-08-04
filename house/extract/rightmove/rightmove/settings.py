@@ -10,11 +10,14 @@ from logging.handlers import TimedRotatingFileHandler
 from scrapy.utils.log import configure_logging
 import logging
 from datetime import datetime
-current = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-logHandler = TimedRotatingFileHandler(f'logs/scrapyLog_{current}.log', when='midnight', interval=1)
+
+current = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+logHandler = TimedRotatingFileHandler(
+    f"logs/scrapyLog_{current}.log", when="midnight", interval=1
+)
 logHandler.setLevel(logging.INFO)
 configure_logging(install_root_handler=False)
-logging.basicConfig(handlers=[logHandler],level=logging.INFO)
+logging.basicConfig(handlers=[logHandler], level=logging.INFO)
 
 BOT_NAME = "rightmove"
 
@@ -23,17 +26,17 @@ NEWSPIDER_MODULE = "rightmove.spiders"
 
 ADDONS = {}
 
-FEEDS={
-    "data/%(name)s/%(name)s_batch_%(batch_time)s.jl":{
-        'format': 'jsonlines',
-        'encoding': 'utf8',
-        'store_empty': False,
-        'fields': None,
-        'indent': 4,
-        'item_export_kwargs': {
-           'export_empty_fields': True,
+FEEDS = {
+    "data/%(name)s/%(name)s_batch_%(batch_time)s.jl": {
+        "format": "jsonlines",
+        "encoding": "utf8",
+        "store_empty": False,
+        "fields": None,
+        "indent": 4,
+        "item_export_kwargs": {
+            "export_empty_fields": True,
         },
-        'batch_item_count': 1000,
+        "batch_item_count": 1000,
     }
 }
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -68,7 +71,7 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
-   "rightmove.middlewares.RightmoveSpiderMiddleware": 543,
+    "rightmove.middlewares.RightmoveSpiderMiddleware": 543,
 }
 
 # Enable or disable downloader middlewares
@@ -86,7 +89,7 @@ SPIDER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "rightmove.pipelines.RightmovePipeline": 300,
+    "rightmove.pipelines.RightmovePipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
