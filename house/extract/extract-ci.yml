@@ -78,4 +78,3 @@ qualtrics_sheetload:
     - merge_requests
     - $MANIFEST_NAME
   when: manual
-

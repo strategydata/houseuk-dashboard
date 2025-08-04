@@ -38,10 +38,7 @@ def response(html_file):
 def test_parse(spider, response):
     results = spider.parse(response)
     item = next(results)
-    assert (
-        item["url"]
-        == "/properties/150832055#/?channel=RES_BUY"
-    )
+    assert item["url"] == "/properties/150832055#/?channel=RES_BUY"
     assert item["price"] == "£950000"
     assert item["address"] == "Snarsgate Street, London, W10"
     assert item["bathrooms"] == "1"
