@@ -32,3 +32,4 @@ extract/tests/template/*
 .cache
 .coverage
 uv.lock
+coverage.xml
