@@ -3,7 +3,9 @@ import logging
 import os
 from scrapy.http import HtmlResponse
 
-from extract.rightmove.rightmove.spiders.rightmove import RightmoveSpider
+from house.extract.rightmove.rightmove.spiders.rightmove import (
+    RightmoveSpider,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -38,19 +40,19 @@ def test_parse(spider, response):
     item = next(results)
     assert (
         item["url"]
-        == "https://www.rightmove.co.uk/properties/156123512#/?channel=RES_BUY"
+        == "/properties/150832055#/?channel=RES_BUY"
     )
-    assert item["price"] == "£650000"
-    assert item["address"] == "Portobello Square, 334 Portobello Road, W10"
+    assert item["price"] == "£950000"
+    assert item["address"] == "Snarsgate Street, London, W10"
     assert item["bathrooms"] == "1"
-    assert item["bedrooms"] == "1"
+    assert item["bedrooms"] == "3"
     assert (
         item["catalog_url"] == "https://www.rightmove.co.uk/property-for-sale/W10.html"
     )
     assert item["let_or_sales"] == "rent"
-    assert item["phone"] == "02038347939"
-    assert item["property_type"] == "Apartment"
+    assert item["phone"] == "02038348331"
+    assert item["property_type"] == "Terraced"
     assert (
         item["summary"]
-        == """Book your viewing! Portobello Square is an impressive collection of apartments located in Ladbroke Grove, on the doorstep of the vibrant Portobello Road. Ready to move in early 2025."""
+        == """A delightful three bedroom period cottage on a secluded street in the Royal Borough of Kensington & Chelsea."""
     )

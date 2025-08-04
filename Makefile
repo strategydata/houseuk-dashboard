@@ -142,5 +142,3 @@ pytest:
 
 python_code_quality:  complexity vulture pytest
 	@echo "Running python_code_quality..."
-
-	

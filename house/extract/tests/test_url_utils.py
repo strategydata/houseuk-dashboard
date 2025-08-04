@@ -1,5 +1,5 @@
 import pytest
-from extract.rightmove.rightmove.misc.url_utils import update_param
+from house.extract.rightmove.rightmove.misc.url_utils import update_param
 
 
 @pytest.mark.parametrize(

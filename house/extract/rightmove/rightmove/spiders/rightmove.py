@@ -2,9 +2,11 @@ import logging
 import scrapy
 import scrapy.spiders
 
-from extract.rightmove.rightmove.itemsloaders import RightmoveItemLoader
-from extract.rightmove.rightmove.items import RightmoveItem
-from extract.rightmove.rightmove.misc.url_utils import update_param
+from house.extract.rightmove.rightmove.itemsloaders import (
+    RightmoveItemLoader,
+)
+from house.extract.rightmove.rightmove.items import RightmoveItem
+from house.extract.rightmove.rightmove.misc.url_utils import update_param
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
