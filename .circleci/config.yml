@@ -13,6 +13,17 @@ jobs:
       - run:
           name: Run tests
           command: tox -v
+      - run:
+          name: Upload coverage to Codecov
+          command: |
+              curl -Os https://uploader.codecov.io/latest/linux/codecov
+              chmod +x codecov
+              ./codecov -t ${CODECOV_TOKEN} -f coverage.xml
+      - store_artifacts:
+          path: results
+      - run:
+          name: "Image comparison page is available at: "
+          command: echo "${CIRCLE_BUILD_URL}/artifacts/${CIRCLE_NODE_INDEX}/results/fig_comparison.html"
 workflows:
   upload-to-codecov:
     jobs:
