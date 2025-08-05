@@ -40,8 +40,8 @@ def test_download_and_save_parquet_happy_and_edge(monkeypatch, complete, expecte
     dummy_df = DummyDF(df_mock)
     read_csv_called = {}
     def mock_read_csv(url, encoding=None):
-        read_csv_called['url'] = url
-        read_csv_called['encoding'] = encoding
+        read_csv_called["url"] = url
+        read_csv_called["encoding"] = encoding
         return dummy_df
     monkeypatch.setattr(pd, "read_csv", mock_read_csv)
     logs = []
@@ -53,8 +53,8 @@ def test_download_and_save_parquet_happy_and_edge(monkeypatch, complete, expecte
     download_and_save_parquet(complete)
 
     # Assert
-    assert read_csv_called['url'] == expected_url
-    assert read_csv_called['encoding'] == "utf-8"
+    assert read_csv_called["url"] == expected_url
+    assert read_csv_called["encoding"] == "utf-8"
     assert hasattr(dummy_df, "_to_parquet_called") and dummy_df._to_parquet_called
     assert dummy_df._to_parquet_args[0] == expected_filename
     assert dummy_df._to_parquet_args[1] == {"index": False}
