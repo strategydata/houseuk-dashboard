@@ -1,6 +1,6 @@
 # house-data
 
-this repo contains house data for house buyers in uk.  I 've deepened my expertise in Data Engineering, MlOps, and ML engineering from [Data Talk Club](https://datatalks.club/). this project is presenting this journey, demonstrate my learning and skills
+This repo contains house data for house buyers in the UK. I've deepened my expertise in Data Engineering, MLOps, and ML Engineering from [Data Talk Club](https://datatalks.club/). This project presents this journey and demonstrates my learning and skills.
 
 this project lies in its comprehensive architecture, designed to predict house prices with precision. It contains:
 1. Data Engineering through an asynchronous web scraper and batch ingestion pipelines, enabling efficient data extraction and preprocessing.
