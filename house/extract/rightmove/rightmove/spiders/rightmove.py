@@ -1,7 +1,7 @@
 import logging
 import scrapy
 import scrapy.spiders
-
+from urllib.parse import urlparse, parse_qs
 from house.extract.rightmove.rightmove.itemsloaders import (
     RightmoveItemLoader,
 )
@@ -70,7 +70,11 @@ class RightmoveSpider(scrapy.spiders.SitemapSpider):
             .replace(",", "")
         )
         logger.debug(f"Total properties found: {total}")
-        current_index = response.meta["index"] + 24 if "index" in response.url else 24
+        current_index = (
+            int(parse_qs(urlparse(response.url).query).get("index", [None])[0]) + 24
+            if "index" in response.url
+            else 24
+        )
         next_page = update_param(response.url, "index", current_index)
         logger.debug(f"Next page URL: {next_page}")
         yield scrapy.Request(

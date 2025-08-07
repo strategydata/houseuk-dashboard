@@ -27,8 +27,8 @@ NEWSPIDER_MODULE = "rightmove.spiders"
 ADDONS = {}
 
 FEEDS = {
-    "data/%(name)s/%(name)s_batch_%(batch_time)s.jl": {
-        "format": "jsonlines",
+    "s3://aws_key:aws_secret@quibbler-house-data-lake/%(name)s_batch_%(batch_time)s.csv": {
+        "format": "csv",
         "encoding": "utf8",
         "store_empty": False,
         "fields": None,
@@ -36,7 +36,7 @@ FEEDS = {
         "item_export_kwargs": {
             "export_empty_fields": True,
         },
-        "batch_item_count": 1000,
+        "batch_item_count": 10000,
     }
 }
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
