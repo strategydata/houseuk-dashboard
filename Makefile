@@ -124,10 +124,6 @@ prepare-python:
 	which uv || python -m pip install uv --break-system-packages
 	uv sync
 
-update-dbt-poetry:
-	cd transform/snowflake-dbt/ && poetry install
-	exit
-
 complexity:
 	@echo "Running complexity (Xenon)..."
 	@uv run xenon --max-absolute B --max-modules B --max-average C .
@@ -135,6 +131,10 @@ complexity:
 vulture:
 	@echo "Running vulture..."
 	@uv run vulture . --min-confidence 100
+
+precommit:
+	@echo "Running pre-commit hooks..."
+	@uv run pre-commit run --all-files
 
 pytest:
 	@echo "Running pytest..."
