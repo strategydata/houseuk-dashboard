@@ -25,6 +25,7 @@ extract/tests/template/*
 *.jsonl
 *.csv
 *.csv.gz
+config.yaml
 
 
 # Other files
