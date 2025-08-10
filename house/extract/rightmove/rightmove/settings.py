@@ -10,6 +10,7 @@ from logging.handlers import TimedRotatingFileHandler
 from scrapy.utils.log import configure_logging
 import logging
 from datetime import datetime
+import os
 
 current = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 logHandler = TimedRotatingFileHandler(
@@ -25,6 +26,9 @@ SPIDER_MODULES = ["rightmove.spiders"]
 NEWSPIDER_MODULE = "rightmove.spiders"
 
 ADDONS = {}
+
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
 FEEDS = {
     "s3://aws_key:aws_secret@quibbler-house-data-lake/%(name)s_batch_%(batch_time)s.csv": {
@@ -89,9 +93,11 @@ SPIDER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "rightmove.pipelines.RightmovePipeline": 300,
+    "rightmove.pipelines.RightmovePipeline": 1,
+    "rightmove.pipelines.UploadToS3Pipeline": 2,
 }
 
+AWS_S3_BUCKET = "quibbler-house-data-lake"
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 # AUTOTHROTTLE_ENABLED = True
