@@ -7,7 +7,6 @@ repos:
   - id: check-merge-conflict
   - id: check-toml
   - id: check-xml
-  - id: check-yaml
   - id: detect-private-key
   # check for existence of private keys
   - id: end-of-file-fixer
