@@ -146,3 +146,7 @@ python_code_quality:  complexity vulture pytest
 pre:
 	@echo "Running pre-commit hooks..."
 	@uv run pre-commit run --all-files
+
+scrapy:
+	@echo "Running scrapy..."
+	@uv run scrapy crawl rightmove
