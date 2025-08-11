@@ -10,6 +10,7 @@ import boto3
 import json
 import hashlib
 from itemadapter import ItemAdapter
+from scrapy.exceptions import DropItem
 
 
 class RightmovePipeline:
@@ -33,3 +34,17 @@ class UploadToS3Pipeline:
             Body=item_bytes, Bucket=self.bucket, Key=item_key + ".json"
         )
         return item
+
+
+class RemoveDuplicatesPipeline:
+    def __init__(self):
+        self.seen = set()
+
+    def process_item(self, item, spider):
+        adapter = ItemAdapter(item)
+        item_id = item.get("id")
+        if adapter["id"] in self.seen:
+            raise DropItem(f"Duplicate item found: {item_id}")
+        else:
+            self.seen.add(adapter["id"])
+            return item

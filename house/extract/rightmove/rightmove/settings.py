@@ -94,7 +94,8 @@ SPIDER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     "rightmove.pipelines.RightmovePipeline": 1,
-    "rightmove.pipelines.UploadToS3Pipeline": 2,
+    "rightmove.pipelines.UploadToS3Pipeline": 3,
+    "rightmove.pipelines.RemoveDuplicatesPipeline": 2,
 }
 
 AWS_S3_BUCKET = "quibbler-house-data-lake"
