@@ -30,19 +30,19 @@ ADDONS = {}
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
-FEEDS = {
-    "s3://aws_key:aws_secret@quibbler-house-data-lake/%(name)s_batch_%(batch_time)s.csv": {
-        "format": "csv",
-        "encoding": "utf8",
-        "store_empty": False,
-        "fields": None,
-        "indent": 4,
-        "item_export_kwargs": {
-            "export_empty_fields": True,
-        },
-        "batch_item_count": 10000,
-    }
-}
+# FEEDS = {
+#     "s3://aws_key:aws_secret@quibbler-house-data-lake/%(name)s_batch_%(batch_time)s.csv": {
+#         "format": "csv",
+#         "encoding": "utf8",
+#         "store_empty": False,
+#         "fields": None,
+#         "indent": 4,
+#         "item_export_kwargs": {
+#             "export_empty_fields": True,
+#         },
+#         "batch_item_count": 10000,
+#     }
+# }
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "rightmove (+http://www.yourdomain.com)"
 
@@ -78,16 +78,14 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-SPIDER_MIDDLEWARES = {
-    "rightmove.middlewares.RightmoveSpiderMiddleware": 543,
-}
-SELENIUM_DRIVER_NAME = "chrome"
-SELENIUM_DRIVER_EXECUTABLE_PATH = None
+DOWNLOADER_MIDDLEWARES = {"scrapy_selenium.SeleniumMiddleware": 800}
+SELENIUM_DRIVER_NAME = "firefox"
+SELENIUM_DRIVER_EXECUTABLE_PATH = "C:\\Program Files\\geckodriver\\geckodriver.exe"
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     #    "rightmove.middlewares.RightmoveDownloaderMiddleware": 2,
-    "scrapy_selenium.SeleniumMiddleware": 1,
+    # "scrapy_selenium.SeleniumMiddleware": 1,
 }
 
 # Enable or disable extensions
@@ -98,11 +96,11 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    "rightmove.pipelines.RightmovePipeline": 1,
-    "rightmove.pipelines.UploadToS3Pipeline": 3,
-    "rightmove.pipelines.RemoveDuplicatesPipeline": 2,
-}
+# ITEM_PIPELINES = {
+#     "rightmove.pipelines.RightmovePipeline": 1,
+#     "rightmove.pipelines.UploadToS3Pipeline": 3,
+#     "rightmove.pipelines.RemoveDuplicatesPipeline": 2,
+# }
 
 AWS_S3_BUCKET = "quibbler-house-data-lake"
 # Enable and configure the AutoThrottle extension (disabled by default)
