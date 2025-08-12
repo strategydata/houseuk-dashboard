@@ -1,10 +1,14 @@
 import logging
 import scrapy
 import scrapy.spiders
+from scrapy.selector import Selector
+from scrapy.loader import ItemLoader
+
 from urllib.parse import urlparse, parse_qs
 from house.extract.rightmove.rightmove.itemsloaders import (
     RightmoveItemLoader,
 )
+from selenium import webdriver
 from house.extract.rightmove.rightmove.items import RightmoveItem
 from house.extract.rightmove.rightmove.misc.url_utils import update_param
 
@@ -12,19 +16,49 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-class RightmoveSpider(scrapy.spiders.SitemapSpider):
+class RightmoveSpider(scrapy.spiders.CrawlSpider):
     """
     rightmove
     """
 
     name = "rightmove"
-    sitemap_urls = ["https://www.rightmove.co.uk/sitemap.xml"]
-    sitemap_rules = [
-        (r"\/property-for-sale\/([a-zA-Z]+\d+)+\.html", "parse"),
-        (r"\/property-to-rent\/([a-zA-Z]+\d+)+\.html", "parse"),
-    ]
+    start_urls = ["https://www.rightmove.co.uk/properties/163477127"]
+    # def start_requests(self):
+    #     url = "https://www.rightmove.co.uk/properties/163477127"
+    #     yield SeleniumRequest(url=url, callback=self.parse_property)
 
-    # increment = 24  # Number of items to increment for pagination
+    def parse_property(self, response):
+        options = webdriver.FirefoxOptions()
+        driver = webdriver.Firefox(options=options)
+        driver.get(self.start_urls[0])
+        driver.implicitly_wait(10)
+        response = driver.page_source
+        selector = Selector(text=response)
+        loader = ItemLoader(item=RightmoveItem(), selector=selector, response=response)
+        loader.add_xpath("url", '//link[@rel="canonical"]/@href')
+        loader.add_xpath("price", "//article/div/div/div/span[1]/text()")
+        loader.add_xpath("title", "//h1/text()")
+        loader.add_xpath("property_type", "//article/dl/div[1]/dd/span/p/text()")
+        loader.add_xpath("bedrooms", "//article/dl/div[2]/dd/span/p/text()")
+        loader.add_xpath("bathrooms", "//article/dl/div[3]/dd/span/p/text()")
+        loader.add_xpath("size", "//article/dl/div[4]/dd/span/p/text()")
+        loader.add_xpath("tenure", "//article/dl/div[5]/button/div/dd/span/p/text()")
+        loader.add_xpath("feature", "//h2/following-sibling::ul/text()")
+        loader.add_xpath("description", "//h2/following-sibling::div/div/text()")
+        loader.add_xpath("council_tax", "//article[3]/dl/div[1]/dd/text()")
+        loader.add_xpath("parking", "//article[3]/dl/div[2]/dd/text()")
+        loader.add_xpath("garden", "//article[3]/dl/div[3]/dd/text()")
+        loader.add_xpath("accessibility", "//article[3]/dl/div[4]/dd/text()")
+        loader.add_xpath("latitude", "//h2/following-sibling::div/div/a/img/@src")
+        loader.add_xpath("longitude", "//h2/following-sibling::div/div/a/img/@src")
+        loader.add_xpath("phone", "//a[starts-with(@href, 'tel:')]/@href")
+        loader.add_xpath(
+            "image_urls",
+            "//a[@rel=\"nofollow\"]/img[starts-with(@src, 'https://media.rightmove.co.uk')]/@src",
+        )
+        yield loader.load_item()
+        driver.quit()
+
     def parse(self, response):
         # Extract the outcode from the URL
         headers = {
