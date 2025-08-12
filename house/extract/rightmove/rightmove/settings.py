@@ -80,13 +80,11 @@ DEFAULT_REQUEST_HEADERS = {
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 DOWNLOADER_MIDDLEWARES = {"scrapy_selenium.SeleniumMiddleware": 800}
 SELENIUM_DRIVER_NAME = "firefox"
-SELENIUM_DRIVER_EXECUTABLE_PATH = "C:\\Program Files\\geckodriver\\geckodriver.exe"
+SELENIUM_DRIVER_EXECUTABLE_PATH = os.environ.get("SELENIUM_DRIVER_EXECUTABLE_PATH")
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-    #    "rightmove.middlewares.RightmoveDownloaderMiddleware": 2,
-    # "scrapy_selenium.SeleniumMiddleware": 1,
-}
+#    "rightmove.middlewares.RightmoveDownloaderMiddleware": 2,
+# "scrapy_selenium.SeleniumMiddleware": 1,
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
