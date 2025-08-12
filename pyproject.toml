@@ -19,6 +19,8 @@ dependencies = [
     "scrapy-contrib-bigexporters>=0.5.0",
     "fastparquet>=2024.11.0",
     "fire>=0.7.0",
+    "scrapy-selenium>=0.0.7",
+    "selenium>=4.34.2",
 ]
 
 [dependency-groups]

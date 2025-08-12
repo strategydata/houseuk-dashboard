@@ -30,19 +30,19 @@ ADDONS = {}
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
-FEEDS = {
-    "s3://aws_key:aws_secret@quibbler-house-data-lake/%(name)s_batch_%(batch_time)s.csv": {
-        "format": "csv",
-        "encoding": "utf8",
-        "store_empty": False,
-        "fields": None,
-        "indent": 4,
-        "item_export_kwargs": {
-            "export_empty_fields": True,
-        },
-        "batch_item_count": 10000,
-    }
-}
+# FEEDS = {
+#     "s3://aws_key:aws_secret@quibbler-house-data-lake/%(name)s_batch_%(batch_time)s.csv": {
+#         "format": "csv",
+#         "encoding": "utf8",
+#         "store_empty": False,
+#         "fields": None,
+#         "indent": 4,
+#         "item_export_kwargs": {
+#             "export_empty_fields": True,
+#         },
+#         "batch_item_count": 10000,
+#     }
+# }
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "rightmove (+http://www.yourdomain.com)"
 
@@ -67,22 +67,24 @@ ROBOTSTXT_OBEY = True
 # TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-# DEFAULT_REQUEST_HEADERS = {
-#    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-#    "Accept-Language": "en",
-# }
+DEFAULT_REQUEST_HEADERS = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "Accept-Language": "en-GB,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,en-US;q=0.6",
+    "Accept-Encoding": "gzip, deflate, zstd",
+    "Connection": "keep-alive",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+    "Host": "www.rightmove.co.uk",
+}
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-SPIDER_MIDDLEWARES = {
-    "rightmove.middlewares.RightmoveSpiderMiddleware": 543,
-}
-
+DOWNLOADER_MIDDLEWARES = {"scrapy_selenium.SeleniumMiddleware": 800}
+SELENIUM_DRIVER_NAME = "firefox"
+SELENIUM_DRIVER_EXECUTABLE_PATH = os.environ.get("SELENIUM_DRIVER_EXECUTABLE_PATH")
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    "rightmove.middlewares.RightmoveDownloaderMiddleware": 543,
-# }
+#    "rightmove.middlewares.RightmoveDownloaderMiddleware": 2,
+# "scrapy_selenium.SeleniumMiddleware": 1,
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -92,11 +94,11 @@ SPIDER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    "rightmove.pipelines.RightmovePipeline": 1,
-    "rightmove.pipelines.UploadToS3Pipeline": 3,
-    "rightmove.pipelines.RemoveDuplicatesPipeline": 2,
-}
+# ITEM_PIPELINES = {
+#     "rightmove.pipelines.RightmovePipeline": 1,
+#     "rightmove.pipelines.UploadToS3Pipeline": 3,
+#     "rightmove.pipelines.RemoveDuplicatesPipeline": 2,
+# }
 
 AWS_S3_BUCKET = "quibbler-house-data-lake"
 # Enable and configure the AutoThrottle extension (disabled by default)
