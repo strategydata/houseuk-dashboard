@@ -30,19 +30,12 @@ ADDONS = {}
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
-# FEEDS = {
-#     "s3://aws_key:aws_secret@quibbler-house-data-lake/%(name)s_batch_%(batch_time)s.csv": {
-#         "format": "csv",
-#         "encoding": "utf8",
-#         "store_empty": False,
-#         "fields": None,
-#         "indent": 4,
-#         "item_export_kwargs": {
-#             "export_empty_fields": True,
-#         },
-#         "batch_item_count": 10000,
-#     }
-# }
+FEED_EXPORT_BATCH_ITEM_COUNT = 1000
+FEEDS = {
+    "s3://quibbler-house-data-lake/%(name)s_batch_%(batch_time)s.csv": {
+        "format": "csv",
+    }
+}
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "rightmove (+http://www.yourdomain.com)"
 
@@ -95,6 +88,7 @@ SELENIUM_DRIVER_ARGUMENTS = ["-headless"]
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+
 # ITEM_PIPELINES = {
 # "rightmove.pipelines.UploadToS3Pipeline": 2,
 # "rightmove.pipelines.RemoveDuplicatesPipeline": 1,

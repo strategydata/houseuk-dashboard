@@ -54,6 +54,7 @@ class RightmoveSpider(SitemapSpider):
 
     def parse(self, response):
         loader = ItemLoader(item=RightmoveItem(), response=response)
+        loader.add_xpath("_id", '//link[@rel="canonical"]/@href')
         loader.add_xpath("url", '//link[@rel="canonical"]/@href')
         loader.add_xpath("price", "//article/div/div/div/span[1]/text()")
         loader.add_xpath("title", "//h1/text()")

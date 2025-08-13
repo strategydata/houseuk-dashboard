@@ -149,4 +149,4 @@ pre:
 
 scrapy:
 	@echo "Running scrapy..."
-	@uv run scrapy crawl rightmove
+	@cd house/extract/rightmove && uv run scrapy crawl rightmove
