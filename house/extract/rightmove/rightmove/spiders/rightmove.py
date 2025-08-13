@@ -1,8 +1,12 @@
 import logging
-import scrapy
-import scrapy.spiders
+
+from scrapy.spiders import SitemapSpider
+from scrapy.http import Request, Response
+from scrapy.spiders.sitemap import iterloc
+from collections.abc import Iterable
 from scrapy.loader import ItemLoader
 from scrapy_selenium import SeleniumRequest
+from scrapy.utils.sitemap import Sitemap, sitemap_urls_from_robots
 
 from house.extract.rightmove.rightmove.items import RightmoveItem
 
@@ -10,31 +14,45 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-class RightmoveSpider(scrapy.spiders.CrawlSpider):
+class RightmoveSpider(SitemapSpider):
     """
     rightmove
     """
 
     name = "rightmove"
-    start_urls = [
-        "https://www.rightmove.co.uk/properties/163226654",
-        "https://www.rightmove.co.uk/properties/164658461",
+
+    sitemap_urls = ["https://www.rightmove.co.uk/sitemap.xml"]
+    sitemap_rules = [
+        (r"/properties/\d+", "parse"),
     ]
 
-    # def start_requests(self):
-    #     url = "https://www.rightmove.co.uk/properties/163477127"
-    #     yield SeleniumRequest(url=url, callback=self.parse_property)
-    def start_requests(self):
-        for url in self.start_urls:
-            yield SeleniumRequest(url=url, callback=self.parse)
+    def _parse_sitemap(self, response: Response) -> Iterable[Request]:
+        if response.url.endswith("/robots.txt"):
+            for url in sitemap_urls_from_robots(response.text, base_url=response.url):
+                yield Request(url, callback=self._parse_sitemap)
+        else:
+            body = self._get_sitemap_body(response)
+            if body is None:
+                logger.warning(
+                    "Ignoring invalid sitemap: %(response)s",
+                    {"response": response},
+                    extra={"spider": self},
+                )
+                return
+            s = Sitemap(body)
+            it = self.sitemap_filter(s)
+            if s.type == "sitemapindex":
+                for loc in iterloc(it, self.sitemap_alternate_links):
+                    if any(x.search(loc) for x in self._follow):
+                        yield Request(loc, callback=self._parse_sitemap)
+            elif s.type == "urlset":
+                for loc in iterloc(it, self.sitemap_alternate_links):
+                    for r, c in self._cbs:
+                        if r.search(loc):
+                            yield SeleniumRequest(url=loc, callback=c)
+                            break
 
     def parse(self, response):
-        # options = webdriver.FirefoxOptions()
-        # driver = webdriver.Firefox(options=options)
-        # driver.get(self.start_urls[0])
-        # driver.implicitly_wait(10)
-        # response = driver.page_source
-        # selector = Selector(text=response)
         loader = ItemLoader(item=RightmoveItem(), response=response)
         loader.add_xpath("url", '//link[@rel="canonical"]/@href')
         loader.add_xpath("price", "//article/div/div/div/span[1]/text()")
@@ -58,62 +76,3 @@ class RightmoveSpider(scrapy.spiders.CrawlSpider):
             "//a[@rel=\"nofollow\"]/img[starts-with(@src, 'https://media.rightmove.co.uk')]/@src",
         )
         yield loader.load_item()
-
-    # def parse(self, response):
-    #     # Extract the outcode from the URL
-    #     headers = {
-    #         "Accept": "*/*",
-    #         "Accept-Encoding": "gzip, deflate, br",
-    #         "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
-    #         "Connection": "keep-alive",
-    #         "Host": "www.rightmove.co.uk",
-    #     }
-    #     let_or_sales = "sales" if "property-to-rent" in response.url else "rent"
-    #     homes = response.css('[class^="PropertyCard_propertyCardContainer_"]')
-    #     if not homes:
-    #         logger.debug(f"Ignoring no items response for URL: {response.url}")
-    #         return
-    #     for home in homes:
-    #         loader = RightmoveItemLoader(item=RightmoveItem(), selector=home)
-    #         loader.add_css("url", "a.propertyCard-link::attr(href)")
-    #         loader.add_css("price", '[class^="PropertyPrice_price_"]::text')
-    #         loader.add_xpath("title", ".//address/text()")
-    #         loader.add_css("date_added", '[class^="MarketedBy_joinedText_"]::text')
-    #         loader.add_css(
-    #             "property_type", '[class^="PropertyInformation_propertyType_"]::text'
-    #         )
-    #         loader.add_css(
-    #             "bedrooms", '[class^="PropertyInformation_bedroomsCount_"]::text'
-    #         )
-    #         loader.add_css(
-    #             "bathrooms", '[class^="PropertyInformation_bathContainer_"] span::text'
-    #         )
-    #         loader.add_css(
-    #             "phone",
-    #             '[class^="CallAgent_test_"] > a:nth-child(2) > span:nth-child(1)::text',
-    #         )
-    #         loader.add_css("address", '[class^="PropertyAddress_address_"]::text')
-    #         loader.add_css("summary", '[class^="PropertyCardSummary_summary_"]::text')
-    #         loader.add_css("email", '[class^="Contact_emailLink_"]::attr(href)')
-    #         loader.add_value("catalog_url", response.url)
-    #         loader.add_value("let_or_sales", let_or_sales)
-    #         yield loader.load_item()
-    #     total = int(
-    #         response.css('[class^="ResultsCount_resultsCount_"] p span::text')
-    #         .get()
-    #         .replace(",", "")
-    #     )
-    #     logger.debug(f"Total properties found: {total}")
-    #     current_index = (
-    #         int(parse_qs(urlparse(response.url).query).get("index", [None])[0]) + 24
-    #         if "index" in response.url
-    #         else 24
-    #     )
-    #     next_page = update_param(response.url, "index", current_index)
-    #     logger.debug(f"Next page URL: {next_page}")
-    #     yield scrapy.Request(
-    #         method="GET",
-    #         url=next_page,
-    #         headers=headers,
-    #         callback=self.parse,
-    #     )

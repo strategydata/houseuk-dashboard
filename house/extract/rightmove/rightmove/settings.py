@@ -67,20 +67,22 @@ ROBOTSTXT_OBEY = True
 # TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-DEFAULT_REQUEST_HEADERS = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "Accept-Language": "en-GB,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,en-US;q=0.6",
-    "Accept-Encoding": "gzip, deflate, zstd",
-    "Connection": "keep-alive",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-    "Host": "www.rightmove.co.uk",
-}
+# DEFAULT_REQUEST_HEADERS = {
+#     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+#     "Accept-Language": "en-GB,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,en-US;q=0.6",
+#     "Accept-Encoding": "gzip, deflate, zstd",
+#     "Connection": "keep-alive",
+#     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+#     "Host": "www.rightmove.co.uk",
+# }
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 DOWNLOADER_MIDDLEWARES = {"scrapy_selenium.SeleniumMiddleware": 800}
 SELENIUM_DRIVER_NAME = "firefox"
-SELENIUM_DRIVER_EXECUTABLE_PATH = os.environ.get("SELENIUM_DRIVER_EXECUTABLE_PATH")
+SELENIUM_DRIVER_EXECUTABLE_PATH = r"C:/Program Files/geckodriver/geckodriver.exe"
+# SELENIUM_DRIVER_EXECUTABLE_PATH = os.environ.get("SELENIUM_DRIVER_EXECUTABLE_PATH")
+SELENIUM_DRIVER_ARGUMENTS = ["-headless"]
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #    "rightmove.middlewares.RightmoveDownloaderMiddleware": 2,
@@ -95,9 +97,8 @@ SELENIUM_DRIVER_EXECUTABLE_PATH = os.environ.get("SELENIUM_DRIVER_EXECUTABLE_PAT
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 # ITEM_PIPELINES = {
-#     "rightmove.pipelines.RightmovePipeline": 1,
-#     "rightmove.pipelines.UploadToS3Pipeline": 3,
-#     "rightmove.pipelines.RemoveDuplicatesPipeline": 2,
+# "rightmove.pipelines.UploadToS3Pipeline": 2,
+# "rightmove.pipelines.RemoveDuplicatesPipeline": 1,
 # }
 
 AWS_S3_BUCKET = "quibbler-house-data-lake"
