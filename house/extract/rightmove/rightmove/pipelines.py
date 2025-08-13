@@ -13,11 +13,6 @@ from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
 
 
-class RightmovePipeline:
-    def process_item(self, item, spider):
-        return item
-
-
 class UploadToS3Pipeline:
     def __init__(self, bucket):
         self.bucket = bucket

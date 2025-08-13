@@ -52,6 +52,9 @@ default-groups = [
     "docs",
 ]
 
+[tool.uv.sources]
+scrapy-selenium = { git = "https://github.com/jogobeny/scrapy-selenium" }
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
