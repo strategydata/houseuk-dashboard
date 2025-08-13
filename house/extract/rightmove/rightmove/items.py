@@ -4,13 +4,20 @@
 # https://docs.scrapy.org/en/latest/topics/items.html
 
 import scrapy
-from itemloaders.processors import TakeFirst, Identity
+from itemloaders.processors import TakeFirst, Identity, MapCompose
+import re
+
+
+def extract_id(url):
+    """Extracts the ID from a URL."""
+    match = re.search(r"/properties/(\d+)", url)
+    return match[1] if match else None
 
 
 class RightmoveItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    _id = scrapy.Field()
+    _id = scrapy.Field(input_processor=MapCompose(extract_id))
     accessibility = scrapy.Field(output_processor=TakeFirst())
     bathrooms = scrapy.Field(output_processor=TakeFirst())
     bedrooms = scrapy.Field(output_processor=TakeFirst())

@@ -21,6 +21,8 @@ dependencies = [
     "fire>=0.7.0",
     "scrapy-selenium>=0.0.7",
     "selenium>=4.34.2",
+    "botocore>=1.40.8",
+    "boto3>=1.40.8",
 ]
 
 [dependency-groups]
