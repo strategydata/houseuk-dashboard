@@ -88,11 +88,10 @@ SELENIUM_DRIVER_ARGUMENTS = ["-headless"]
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-
-# ITEM_PIPELINES = {
-# "rightmove.pipelines.UploadToS3Pipeline": 2,
-# "rightmove.pipelines.RemoveDuplicatesPipeline": 1,
-# }
+ITEM_PIPELINES = {
+    # "rightmove.pipelines.UploadToS3Pipeline": 2,
+    # "rightmove.pipelines.RemoveDuplicatesPipeline": 1,
+}
 
 AWS_S3_BUCKET = "quibbler-house-data-lake"
 # Enable and configure the AutoThrottle extension (disabled by default)
