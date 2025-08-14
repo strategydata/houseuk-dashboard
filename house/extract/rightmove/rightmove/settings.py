@@ -88,7 +88,6 @@ SELENIUM_DRIVER_ARGUMENTS = ["-headless"]
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-
 # ITEM_PIPELINES = {
 # "rightmove.pipelines.UploadToS3Pipeline": 2,
 # "rightmove.pipelines.RemoveDuplicatesPipeline": 1,
