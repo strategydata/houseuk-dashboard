@@ -24,6 +24,7 @@ dependencies = [
     "botocore>=1.40.8",
     "boto3>=1.40.8",
     "scrapyd>=1.6.0",
+    "scrapeops-scrapy>=0.5.6",
 ]
 
 [dependency-groups]
