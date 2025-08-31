@@ -13,7 +13,6 @@ from airflow_utils import (
 )
 
 from kube_secrets import (
-    BAMBOOHR_API_TOKEN,
     SNOWFLAKE_ACCOUNT,
     SNOWFLAKE_LOAD_DATABASE,
     SNOWFLAKE_LOAD_PASSWORD,
@@ -61,7 +60,6 @@ landRegistry_extract = KubernetesPodOperator(
     task_id="landRegistry-extract",
     name="landRegistry-extract",
     secrets=[
-        BAMBOOHR_API_TOKEN,
         SNOWFLAKE_ACCOUNT,
         SNOWFLAKE_LOAD_DATABASE,
         SNOWFLAKE_LOAD_ROLE,
