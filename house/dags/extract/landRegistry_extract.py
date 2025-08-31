@@ -1,8 +1,9 @@
 import os
 from datetime import datetime, timedelta
 
-from airflow import DAG
+from airflow.sdk import DAG
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
+
 from airflow_utils import (
     DATA_IMAGE,
     clone_and_setup_extraction_cmd,
@@ -10,6 +11,7 @@ from airflow_utils import (
     gitlab_pod_env_vars,
     slack_failed_task,
 )
+
 from kube_secrets import (
     BAMBOOHR_API_TOKEN,
     SNOWFLAKE_ACCOUNT,
