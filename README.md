@@ -36,6 +36,10 @@ The following requirements are needed to reproduce the project :
 1. A Google Cloud Platform account
 2. The Google Cloud SDK
 3. A SSH client
+4. AWS account
 
+### EC2
+
+inside ec2, you
 
 ## Data Extraction and Processing

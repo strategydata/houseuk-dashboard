@@ -1,7 +1,7 @@
 import os
-from datetime import datetime, timedelta
+import pendulum
 
-from airflow import DAG
+from airflow.sdk import dag
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow_utils import (
     DATA_IMAGE,
@@ -25,6 +25,15 @@ from dags.kubernetes_helpers import get_affinity, get_toleration
 # Load the env vars into a dict and set Secrets
 env = os.environ.copy()
 pod_env_vars = gitlab_pod_env_vars
+
+
+@dag(
+    schedule=None,
+    start_date=pendulum.datetime(2023, 5, 10, tz="Europe/London"),
+)
+def landRegistry_extract():
+    """DAG to extract data from the land registry"""
+    pass
 
 
 default_args = {
