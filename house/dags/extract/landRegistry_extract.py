@@ -6,7 +6,6 @@ from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperato
 
 from airflow_utils import (
     DATA_IMAGE,
-    clone_and_setup_extraction_cmd,
     gitlab_defaults,
     gitlab_pod_env_vars,
     slack_failed_task,
@@ -50,7 +49,6 @@ dag = DAG(
 
 
 landRegistry_extract_cmd = f"""
-    {clone_and_setup_extraction_cmd} &&
     python landRegistry/src/execute.py
 """
 
