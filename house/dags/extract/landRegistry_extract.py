@@ -3,6 +3,7 @@ import pendulum
 
 from airflow.sdk import dag
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
+
 from airflow_utils import (
     DATA_IMAGE,
     clone_and_setup_extraction_cmd,
@@ -10,8 +11,8 @@ from airflow_utils import (
     gitlab_pod_env_vars,
     slack_failed_task,
 )
+
 from kube_secrets import (
-    BAMBOOHR_API_TOKEN,
     SNOWFLAKE_ACCOUNT,
     SNOWFLAKE_LOAD_DATABASE,
     SNOWFLAKE_LOAD_PASSWORD,
@@ -68,7 +69,6 @@ landRegistry_extract = KubernetesPodOperator(
     task_id="landRegistry-extract",
     name="landRegistry-extract",
     secrets=[
-        BAMBOOHR_API_TOKEN,
         SNOWFLAKE_ACCOUNT,
         SNOWFLAKE_LOAD_DATABASE,
         SNOWFLAKE_LOAD_ROLE,
