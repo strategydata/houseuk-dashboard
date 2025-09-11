@@ -28,6 +28,9 @@ dependencies = [
     "apache-airflow>=3.0.4",
     "apache-airflow-providers-cncf-kubernetes>=10.7.0",
     "pendulum>=3.1.0",
+    "dbt>=1.0.0.40.5",
+    "dbt-snowflake>=1.9.2",
+    "great-expectations>=0.18.8",
 ]
 
 [dependency-groups]
