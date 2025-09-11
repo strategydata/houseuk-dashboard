@@ -4,6 +4,11 @@ from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
     KubernetesPodOperator,
 )
 
+from airflow_utils import (
+    DATA_IMAGE,
+    clone_repo_cmd
+)
+
 
 @dag(
     dag_id="example_taskflow_k8s_dag",
@@ -24,7 +29,7 @@ def taskflow_k8s_dag():
     run_python = KubernetesPodOperator(
         task_id="run_python_in_k8s",
         namespace="airflow",
-        image="python:3.11-slim",
+        image=DATA_IMAGE,
         cmds=["python", "-c"],
         arguments=["print('Hello from KubernetesPodOperator - Python!')"],
         labels={"task": "python"},
