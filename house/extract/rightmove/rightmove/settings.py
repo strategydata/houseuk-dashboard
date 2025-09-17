@@ -22,6 +22,7 @@ logging.basicConfig(handlers=[logHandler], level=logging.INFO)
 
 BOT_NAME = "rightmove"
 
+
 SPIDER_MODULES = ["rightmove.spiders"]
 NEWSPIDER_MODULE = "rightmove.spiders"
 
@@ -29,6 +30,7 @@ ADDONS = {}
 
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+SCRAPEOPS_API_KEY = os.environ.get("SCRAPEOPS_API_KEY")
 
 FEED_EXPORT_BATCH_ITEM_COUNT = 1000
 FEEDS = {
@@ -71,7 +73,11 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-DOWNLOADER_MIDDLEWARES = {"scrapy_selenium.SeleniumMiddleware": 800}
+DOWNLOADER_MIDDLEWARES = {
+    "scrapy_selenium.SeleniumMiddleware": 800,
+    "scrapeops_scrapy.middleware.retry.RetryMiddleware": 550,
+    "scrapy.downloadermiddlewares.retry.RetryMiddleware": None,
+}
 SELENIUM_DRIVER_NAME = "firefox"
 SELENIUM_DRIVER_EXECUTABLE_PATH = os.environ.get("SELENIUM_DRIVER_EXECUTABLE_PATH")
 SELENIUM_DRIVER_ARGUMENTS = ["-headless"]
@@ -85,6 +91,10 @@ SELENIUM_DRIVER_ARGUMENTS = ["-headless"]
 # EXTENSIONS = {
 #    "scrapy.extensions.telnet.TelnetConsole": None,
 # }
+EXTENSIONS = {
+    "scrapeops_scrapy.extension.ScrapeOpsMonitor": 500,
+}
+
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
