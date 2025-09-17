@@ -31,8 +31,7 @@ class CrimeData:
 
     def load_data(self, url: str) -> list[str]:
         content = self.download_zip(url)
-        csv_files = self.extract_csv_from_zip(content)
-        return csv_files
+        return self.extract_csv_from_zip(content)
 
     def download_zip(self, url: str) -> bytes:
         """
@@ -72,6 +71,8 @@ class CrimeData:
 
 def main(all: bool = False):
     """main download crime data from data.police.uk and saves it as parquet file"""
+    # TODO: implement incremental number of records loaded for monitoring
+    # record_counts = {}
     crimeData = CrimeData()
     if not all:
         crimeData.load_latest_data()

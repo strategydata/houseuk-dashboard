@@ -32,6 +32,7 @@ dependencies = [
     "dbt-snowflake>=1.9.2",
     "great-expectations>=0.18.8",
     "python-dateutil>=2.9.0.post0",
+    "snowflake-sqlalchemy>=1.7.7",
 ]
 
 [dependency-groups]
@@ -86,6 +87,7 @@ exclude=[
     ".mypy_cache",
     ".vscode",
     "__pycache__",
+    "values.yaml"
 ]
 
 
