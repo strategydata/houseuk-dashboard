@@ -209,8 +209,7 @@ def query_executor(
     try:
         if should_close_connection:
             connection = engine.connect()
-        results = execute_query_str(connection, query, *args, **kwargs).fetchall()
-        return results
+        return execute_query_str(connection, query, *args, **kwargs).fetchall()
     finally:
         if should_close_connection:
             connection.close()
