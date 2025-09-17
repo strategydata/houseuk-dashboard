@@ -3,10 +3,12 @@ import os
 import sys
 import json
 from snowflake.sqlalchemy import URL as snowflake_URL
-from sqlalchemy import text,create_engine
+from sqlalchemy import text, create_engine
 from sqlalchemy.engine.base import Engine
-from typing import List, Tuple, Any,Dict
+from typing import List, Tuple, Any, Dict
 from pathlib import Path
+
+
 def snowflake_engine_factory(
     args: Dict[str, str],
     role: str,
@@ -86,8 +88,6 @@ def snowflake_engine_factory(
     )
 
 
-
-
 def snowflake_stage_load_copy_remove(
     file: str,
     stage: str,
@@ -112,14 +112,14 @@ def snowflake_stage_load_copy_remove(
         engine (Engine): SQLAlchemy engine connected to Snowflake.
         type (str, optional): File format type (e.g., "json", "csv","Avro","ORC","Parquet","XML","TSV"). Defaults to "json".
         on_error (str, optional): Error handling strategy for COPY INTO (e.g., "abort_statement"). Defaults to "abort_statement".
-        file_format_options (str, optional): For semi-structured file formats (JSON, Avro, etc.), the only supported character set is UTF-8, 
+        file_format_options (str, optional): For semi-structured file formats (JSON, Avro, etc.), the only supported character set is UTF-8,
                                             for delimited files, the default character set is UTF-8. you can find support file format options https://docs.snowflake.com/en/user-guide/intro-summary-loading
         col_names (str, optional): Column names or mapping for COPY INTO. Defaults to "".
     Raises:
         Any exceptions raised during query execution are propagated.
     Note:
         The function logs each step and query for debugging purposes.
-    
+
     """
 
     file_name = os.path.basename(file)
@@ -170,6 +170,7 @@ def snowflake_stage_load_copy_remove(
     finally:
         conn.close()
         engine.dispose()
+
 
 def query_executor(
     engine: Engine,
@@ -229,6 +230,7 @@ def _validate_and_format_snowflake_col_names(col_names: str, type: str):
         )
     return col_names
 
+
 def execute_query_str(connection, query_str: str, *args, **kwargs) -> List[Tuple[Any]]:
     """
     Execute either a raw SQL query string or SQLAlchemy construct.
@@ -247,6 +249,7 @@ def execute_query_str(connection, query_str: str, *args, **kwargs) -> List[Tuple
         return connection.execute(text(query_str), *args, **kwargs)
     return connection.execute(query_str, *args, **kwargs)
 
+
 def push_to_xcom_file(xcom_json: Dict[Any, Any]) -> None:
     """
     Writes the json passed in as a parameter to the file path required by KubernetesPodOperator to make the json an xcom in Airflow.
@@ -258,4 +261,3 @@ def push_to_xcom_file(xcom_json: Dict[Any, Any]) -> None:
     Path("/airflow/xcom/").mkdir(parents=True, exist_ok=True)
     with open(xcom_file_name, "w") as xcom_file:
         json.dump(xcom_json, xcom_file)
-

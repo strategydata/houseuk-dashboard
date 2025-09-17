@@ -72,8 +72,8 @@ class CrimeData:
 
 def main(all: bool = False):
     """main download crime data from data.police.uk and saves it as parquet file"""
-    #TODO: implement incremental number of records loaded for monitoring
-    record_counts ={}
+    # TODO: implement incremental number of records loaded for monitoring
+    # record_counts = {}
     crimeData = CrimeData()
     if not all:
         crimeData.load_latest_data()
