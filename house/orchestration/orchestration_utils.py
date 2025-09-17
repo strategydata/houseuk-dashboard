@@ -209,8 +209,7 @@ def query_executor(
     try:
         if should_close_connection:
             connection = engine.connect()
-        results = execute_query_str(connection, query, *args, **kwargs).fetchall()
-        return results
+        return execute_query_str(connection, query, *args, **kwargs).fetchall()
     finally:
         if should_close_connection:
             connection.close()
@@ -220,7 +219,7 @@ def query_executor(
 
 def _validate_and_format_snowflake_col_names(col_names: str, type: str):
     # for json files, default to jsontext column
-    if type.lower() == "json" and col_names == "":
+    if type.lower() == "json" and not col_names:
         return "(jsontext)"
 
     # if user passes in col_names, it must include '(' and ')'
