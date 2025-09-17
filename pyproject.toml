@@ -87,6 +87,7 @@ exclude=[
     ".mypy_cache",
     ".vscode",
     "__pycache__",
+    "values.yaml"
 ]
 
 
