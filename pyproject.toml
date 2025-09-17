@@ -31,6 +31,7 @@ dependencies = [
     "dbt>=1.0.0.40.5",
     "dbt-snowflake>=1.9.2",
     "great-expectations>=0.18.8",
+    "python-dateutil>=2.9.0.post0",
 ]
 
 [dependency-groups]
@@ -86,6 +87,7 @@ exclude=[
     ".vscode",
     "__pycache__",
 ]
+
 
 [tool.ruff.lint]
 preview = true

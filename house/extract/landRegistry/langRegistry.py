@@ -3,7 +3,7 @@ import pandas as pd
 import fire
 
 
-def download_and_save_parquet(complete: bool):
+def download_and_save_parquet(complete: bool = False):
     """
     The function `download_and_save_parquet` downloads a CSV file from a specified URL and saves it as a
     Parquet file based on a boolean parameter.
@@ -22,7 +22,6 @@ def download_and_save_parquet(complete: bool):
     else:
         url = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-monthly-update-new-version.csv"
         filename = "landRegistry_monthly.parquet"
-    logging.info(f"Downloading: {url}")
     df = pd.read_csv(url, encoding="utf-8")
     df.to_parquet(filename, index=False)
     logging.info(f"Downloaded and saved to {filename}")

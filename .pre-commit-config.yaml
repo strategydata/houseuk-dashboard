@@ -4,6 +4,7 @@ repos:
   hooks:
   - id: check-case-conflict
   - id: check-json
+    exclude_types: ["jupyter"]
   - id: check-merge-conflict
   - id: check-toml
   - id: check-xml

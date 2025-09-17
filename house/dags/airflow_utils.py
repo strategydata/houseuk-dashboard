@@ -1,4 +1,5 @@
 import os
+
 env = os.environ.copy()
 GIT_BRANCH = env["GIT_BRANCH"]
 github_pod_env_vars = {
@@ -22,12 +23,12 @@ github_pod_env_vars = {
         if GIT_BRANCH == "main"
         else f"{GIT_BRANCH.upper()}"
     ),
-    "DBT_EXCLUDE_RESOURCE_TYPES": ("unit_test" if GIT_BRANCH == "master" else ""),    
+    "DBT_EXCLUDE_RESOURCE_TYPES": ("unit_test" if GIT_BRANCH == "master" else ""),
 }
-DATA_IMAGE="docker.io/kangqiwang/data_image:0.0.1"
-DBT_IMAGE=""
+DATA_IMAGE = "docker.io/kangqiwang/data_image:0.0.1"
+DBT_IMAGE = ""
 
-SSH_REPO ="git@github.com:strategydata/houseuk-dashboard.git"
+SSH_REPO = "git@github.com:strategydata/houseuk-dashboard.git"
 HTTP_REPO = "https://github.com/strategydata/houseuk-dashboard.git"
 
 # git commands
@@ -46,7 +47,7 @@ clone_repo_cmd = f"""
     fi
     if [[ -z "$DBT_REPO_BRANCH" ]]; then
         export DBT_REPO_BRANCH="master"
-    fi 
+    fi
     if [[ -z "$GIT_DATA_TESTS_PRIVATE_KEY" ]]; then
         export REPO="{HTTP_REPO}";
         else

@@ -1,52 +1,38 @@
 from datetime import datetime
-from airflow.decorators import dag, task
+from airflow.decorators import dag
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import (
     KubernetesPodOperator,
 )
 
 from airflow_utils import (
     DATA_IMAGE,
-    clone_repo_cmd
 )
 
 
 @dag(
-    dag_id="example_taskflow_k8s_dag",
-    schedule_interval="@daily",
+    dag_id="landRegistry_dag",
+    schedule_interval="@monthly",
     start_date=datetime(2025, 1, 1),
     catchup=False,
-    tags=["kubernetes", "taskflow"],
+    tags=["landRegistry", "extract"],
 )
-def taskflow_k8s_dag():
+def landRegistry_extract():
+    """landRegistry_extract
+    langRegistry data extraction DAG.
     """
-    Example DAG using TaskFlow API + KubernetesPodOperator.
-    """
-
-    @task
-    def start_message():
-        print("Starting TaskFlow DAG with Kubernetes...")
-
-    run_python = KubernetesPodOperator(
-        task_id="run_python_in_k8s",
+    landRegistry_extract_task = KubernetesPodOperator(
+        task_id="landRegistry_extract_task",
+        name="landRegistry-extract-task",
         namespace="airflow",
         image=DATA_IMAGE,
-        cmds=["python", "-c"],
-        arguments=["print('Hello from KubernetesPodOperator - Python!')"],
+        cmds=["uv run python", "house/extract/landRegistry/landRegistry_extract.py"],
+        arguments=["--complete=False"],
         labels={"task": "python"},
-        name="python-task",
         get_logs=True,
         is_delete_operator_pod=True,
     )
 
-    @task
-    def end_message():
-        print("TaskFlow DAG finished!")
-
-    # Dependencies with TaskFlow style
-    start = start_message()
-    end = end_message()
-
-    start >> run_python >> end
+    landRegistry_extract_task
 
 
-dag = taskflow_k8s_dag()
+dag = landRegistry_extract()
