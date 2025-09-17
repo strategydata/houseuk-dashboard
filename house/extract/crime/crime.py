@@ -31,8 +31,7 @@ class CrimeData:
 
     def load_data(self, url: str) -> list[str]:
         content = self.download_zip(url)
-        csv_files = self.extract_csv_from_zip(content)
-        return csv_files
+        return self.extract_csv_from_zip(content)
 
     def download_zip(self, url: str) -> bytes:
         """
