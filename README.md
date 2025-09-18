@@ -21,7 +21,7 @@ The chosen dataset for this project:
 | --------- | --------- | ---------- |
 | land Registry | airflow,extract from link | csv | Snowflake
 | crime data | airflow, extract from link | zip and csv | Snowflake
-| rightmove | scrapy | json |
+| rightmove | scrapy | json | Snowflake
 
 The dataset contains every single public transaction made by house transaction, from transaction info such as prices, house details
 
