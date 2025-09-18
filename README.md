@@ -10,10 +10,20 @@ this project lies in its comprehensive architecture, designed to predict house p
 this project has use data source:
 
 ## Problem
-this is simple project thich takes data from the land registry and transforms it in order to visualize the best house
+this is simple project this takes data from the land registry and transforms it in order to visualize the best house
 
-## Dataset
-The chosen dataset for this project land registry[https://landregistry.data.gov.uk/app/ppd/]. The dataset contains every single public transaction made by house transaction, from transaction info such as prices, house details
+## Dataset and Methods
+The chosen dataset for this project:
+- this is for house transaction dataset (land registry[https://landregistry.data.gov.uk/app/ppd/]).
+- this is crime data from the police [https://data.police.uk/data/archive/]
+- This is a sales and rental house dataset from [rightmove](https://www.rightmove.co.uk/).
+| Data | Extraction | Raw Format | destination |
+| --------- | --------- | ---------- |
+| land Registry | airflow,extract from link | csv | Snowflake
+| crime data | airflow, extract from link | zip and csv | Snowflake
+| rightmove | scrapy | json | Snowflake
+
+The dataset contains every single public transaction made by house transaction, from transaction info such as prices, house details
 
 ## Dashboard
 
