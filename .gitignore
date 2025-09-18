@@ -37,3 +37,6 @@ coverage.xml
 
 # Kubernetes files
 secret.yaml
+
+# dbt
+/house_dbt/*
