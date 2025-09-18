@@ -16,7 +16,7 @@ this is simple project this takes data from the land registry and transforms it 
 The chosen dataset for this project:
 - this is for house transaction dataset (land registry[https://landregistry.data.gov.uk/app/ppd/]).
 - this is crime data from the police [https://data.police.uk/data/archive/]
-- this is sells and rent house dataset from [rigtmove](https://www.rightmove.co.uk/)
+- This is a sales and rental house dataset from [rightmove](https://www.rightmove.co.uk/).
 | Data | Extraction | Raw Format | destination |
 | --------- | --------- | ---------- |
 | land Registry | airflow,extract from link | csv | Snowflake
