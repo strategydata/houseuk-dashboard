@@ -17,11 +17,12 @@ The chosen dataset for this project:
 - this is for house transaction dataset (land registry[https://landregistry.data.gov.uk/app/ppd/]).
 - this is crime data from the police [https://data.police.uk/data/archive/]
 - This is a sales and rental house dataset from [rightmove](https://www.rightmove.co.uk/).
+
 | Data | Extraction | Raw Format | destination |
-| --------- | --------- | ---------- |
-| land Registry | airflow,extract from link | csv | Snowflake
-| crime data | airflow, extract from link | zip and csv | Snowflake
-| rightmove | scrapy | json | Snowflake
+| --------- | --------- | ---------- | --------- |
+| land Registry | airflow,extract from link | csv | Snowflake |
+| crime data | airflow, extract from link | zip and csv | Snowflake |
+| rightmove | scrapy | json | Snowflake |
 
 The dataset contains every single public transaction made by house transaction, from transaction info such as prices, house details
 
