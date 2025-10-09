@@ -3,6 +3,7 @@
 This repo contains house data for house buyers in the UK. I've deepened my expertise in Data Engineering, MLOps, and ML Engineering from [Data Talk Club](https://datatalks.club/). This project presents this journey and demonstrates my learning and skills.
 
 this project lies in its comprehensive architecture, designed to predict house prices with precision. It contains:
+
 1. Data Engineering through an asynchronous web scraper and batch ingestion pipelines, enabling efficient data extraction and preprocessing.
 2. ML Engineering with a focus on model training and feature engineering
 3. MLOps by implementing monitoring practices to ensure the system's reliability and performance over time.
@@ -10,19 +11,28 @@ this project lies in its comprehensive architecture, designed to predict house p
 this project has use data source:
 
 ## Problem
-this is simple project this takes data from the land registry and transforms it in order to visualize the best house
+this is simple project this takes data from the different datasource like land registry, police.co.uk, rightmove, Inside Airbnb and transforms it in order to visualize the best house for property investment
+
+our project target property investment strategy is:
+- Buy to Let
+- Holiday Lets
+- Buy, Refurbish, Refinance(BRR)
+- house flipping
 
 ## Dataset and Methods
 The chosen dataset for this project:
-- this is for house transaction dataset (land registry[https://landregistry.data.gov.uk/app/ppd/]).
-- this is crime data from the police [https://data.police.uk/data/archive/]
+- this is for house transaction dataset [land registry](https://landregistry.data.gov.uk/app/ppd/).
+- this is crime data from the [police](https://data.police.uk/data/archive/).
 - This is a sales and rental house dataset from [rightmove](https://www.rightmove.co.uk/).
 
 | Data | Extraction | Raw Format | destination |
 | --------- | --------- | ---------- | --------- |
-| land Registry | airflow,extract from link | csv | Snowflake |
-| crime data | airflow, extract from link | zip and csv | Snowflake |
-| rightmove | scrapy | json | Snowflake |
+| land Registry | airflow,extract from link | csv | snowflake |
+| crime data | airflow, extract from link | zip and csv | snowflake |
+| rightmove for sales | scrapy | json | snowflake |
+| rightmove for rents | scrapy | json | snowflake |
+| Inside Airbnb | airlfow, extract from link | csv | snowflake |
+
 
 The dataset contains every single public transaction made by house transaction, from transaction info such as prices, house details
 
