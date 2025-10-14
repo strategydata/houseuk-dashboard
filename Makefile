@@ -143,10 +143,15 @@ pytest:
 python_code_quality:  complexity vulture pytest
 	@echo "Running python_code_quality..."
 
-pre:
+pre-commit:
 	@echo "Running pre-commit hooks..."
 	@uv run pre-commit run --all-files
 
-scrapy:
-	@echo "Running scrapy..."
-	@cd house/extract/rightmove && uv run scrapy crawl rightmove
+scrapyd:
+	@echo "Running scrapyd..."
+	@cd house/extract/rightmove && uv run scrapyd
+
+run-scrapyd-rightmove:
+	@echo "Waiting for scrapyd to start..."
+	@curl http://localhost:6800/schedule.json -d project=default -d spider=rightmove
+
