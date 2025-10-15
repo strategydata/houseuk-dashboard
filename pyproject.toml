@@ -33,6 +33,9 @@ dependencies = [
     "great-expectations>=0.18.8",
     "python-dateutil>=2.9.0.post0",
     "snowflake-sqlalchemy>=1.7.7",
+    "snowflake-connector-python>=3.17.3",
+    "osmnx>=2.0.6",
+    "scrapydweb>=1.4.0",
 ]
 
 [dependency-groups]
@@ -56,6 +59,9 @@ types = [
 
 lint =[
     "ruff>=0.12.2,<0.13",
+]
+dev = [
+    "ipykernel>=6.30.1",
 ]
 
 [tool.uv]

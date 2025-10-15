@@ -1,4 +1,3 @@
-import logging
 import os
 import sys
 import json
@@ -146,12 +145,7 @@ def snowflake_stage_load_copy_remove(
                          on_error='{on_error}';
                         """
 
-    logging.basicConfig(stream=sys.stdout, level=20)
 
-    logging.info("Preview of queries to be run:")
-    logging.info(f"\nremove_query: {remove_query}")
-    logging.info(f"\nput_query: {put_query}")
-    logging.info(f"\ncopy_query: {copy_query}")
 
     try:
         conn = engine.connect()
@@ -163,9 +157,7 @@ def snowflake_stage_load_copy_remove(
         ]
 
         for step_description, query in steps:
-            logging.info(f"{step_description} ...")
             query_executor(engine, query, dispose_engine=False, connection=conn)
-            logging.info(f"Successfully completed: {step_description}")
 
     finally:
         conn.close()

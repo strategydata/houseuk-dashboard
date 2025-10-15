@@ -7,7 +7,6 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 from logging.handlers import TimedRotatingFileHandler
-from scrapy.utils.log import configure_logging
 import logging
 from datetime import datetime
 import os
@@ -16,10 +15,12 @@ current = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
 logHandler = TimedRotatingFileHandler(
     f"logs/scrapyLog_{current}.log", when="midnight", interval=1
 )
-logHandler.setLevel(logging.INFO)
-configure_logging(install_root_handler=False)
-logging.basicConfig(handlers=[logHandler], level=logging.INFO)
-
+logging.getLogger("selenium").setLevel(logging.INFO)
+logging.getLogger("botocore").setLevel(logging.DEBUG)
+logging.getLogger("boto3").setLevel(logging.DEBUG)
+logHandler.setLevel(logging.DEBUG)
+logging.basicConfig(handlers=[logHandler], level=logging.DEBUG)
+LOG_LEVEL = "DEBUG"
 BOT_NAME = "rightmove"
 
 
@@ -32,12 +33,14 @@ AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 SCRAPEOPS_API_KEY = os.environ.get("SCRAPEOPS_API_KEY")
 
-FEED_EXPORT_BATCH_ITEM_COUNT = 1000
 FEEDS = {
-    "s3://quibbler-house-data-lake/%(name)s_batch_%(batch_time)s.csv": {
-        "format": "csv",
+    "s3://quibbler-house-data-lake/rightmove/rightmove_%(batch_id)d_%(batch_time)s.jsonl": {
+        "format": "jsonlines",
+        "store_empty": False,
     }
 }
+FEED_EXPORT_BATCH_ITEM_COUNT = 1000
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "rightmove (+http://www.yourdomain.com)"
 

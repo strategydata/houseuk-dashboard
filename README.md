@@ -11,15 +11,45 @@ this project lies in its comprehensive architecture, designed to predict house p
 this project has use data source:
 
 ## Problem
-this is simple project this takes data from the different datasource like land registry, police.co.uk, rightmove, Inside Airbnb and transforms it in order to visualize the best house for property investment
+this is simple project this takes data from the different datasource like land registry, police.co.uk, rightmove, Inside Airbnb and transforms it in order to visualize the best house for property investment.
 
 our project target property investment strategy is:
-- Buy to Let
-- Holiday Lets
-- Buy, Refurbish, Refinance(BRR)
-- house flipping
+
+### Buy to Let
+
+there are lots of factors to consider of buy to let strategy:
+
+#### Budgets
+
+
+#### Rental Demand
+
+
+#### Estimate Rental yield
+
+
+#### Public transport
+
+
+#### Safety
+
+#### Captial growth
+
+#### Rental Comparisons
+
+#### Amenities
+
+
+
+
+### Holiday Lets
+
+### Buy, Refurbish, Refinance(BRR)
+
+### House flipping
 
 ## Dataset and Methods
+
 The chosen dataset for this project:
 - this is for house transaction dataset [land registry](https://landregistry.data.gov.uk/app/ppd/).
 - this is crime data from the [police](https://data.police.uk/data/archive/).
@@ -27,10 +57,10 @@ The chosen dataset for this project:
 
 | Data | Extraction | Raw Format | destination |
 | --------- | --------- | ---------- | --------- |
-| land Registry | airflow,extract from link | csv | snowflake |
-| crime data | airflow, extract from link | zip and csv | snowflake |
-| rightmove for sales | scrapy | json | snowflake |
-| rightmove for rents | scrapy | json | snowflake |
+| Land Registry | airflow,extract from link | csv | snowflake |
+| Crime Data | airflow, extract from link | zip and csv | snowflake |
+| Rightmove for sales | scrapy | json | snowflake |
+| Rightmove for rents | scrapy | json | snowflake |
 | Inside Airbnb | airlfow, extract from link | csv | snowflake |
 
 

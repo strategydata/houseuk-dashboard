@@ -10,7 +10,7 @@ from scrapy.utils.sitemap import Sitemap, sitemap_urls_from_robots
 
 from house.extract.rightmove.rightmove.items import RightmoveItem
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 
 

@@ -10,7 +10,6 @@ import io
 class CrimeData:
     def __init__(self, timeout=120, output_dir="/data/crime"):
         self.base_url = "https://data.police.uk/data/archive/"
-
         self.timeout = timeout
         # Global Headers for requests
         self.header = {}
@@ -27,7 +26,6 @@ class CrimeData:
             url = f"{self.base_url}{start.strftime('%Y-%m')}.zip"
             start += relativedelta(years=1, months=11)
             csv_files = self.load_data(url)
-            print(csv_files)
 
     def load_data(self, url: str) -> list[str]:
         content = self.download_zip(url)
