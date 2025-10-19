@@ -1,15 +1,19 @@
 import logging
 import pandas as pd
 import fire
-from house.orchestration.orchestration_utils import snowflake_engine_factory,snowflake_stage_load_copy_remove
+
 
 class LangRegistry:
-    def __init__(self,timeout=120,output_dir="/data/landregistry",complete: bool = False):
-        self.url_suffix = "complete.csv" if complete else "monthly-update-new-version.csv"
+    def __init__(
+        self, timeout=120, output_dir="/data/landregistry", complete: bool = False
+    ):
+        self.url_suffix = (
+            "complete.csv" if complete else "monthly-update-new-version.csv"
+        )
         self.base_url = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-"
         self.timeout = 120
-    
-        
+
+
 def download_and_save_parquet(complete: bool = False):
     """
     The function `download_and_save_parquet` downloads a CSV file from a specified URL and saves it as a
@@ -32,7 +36,6 @@ def download_and_save_parquet(complete: bool = False):
     df = pd.read_csv(url, encoding="utf-8")
     df.to_parquet(filename, index=False)
     logging.info(f"Downloaded and saved to {filename}")
-    
 
 
 if __name__ == "__main__":

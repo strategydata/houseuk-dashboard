@@ -154,4 +154,3 @@ scrapyd:
 run-scrapyd-rightmove:
 	@echo "Waiting for scrapyd to start..."
 	@curl http://localhost:6800/schedule.json -d project=default -d spider=rightmove
-

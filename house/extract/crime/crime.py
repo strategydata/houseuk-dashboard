@@ -25,7 +25,7 @@ class CrimeData:
         while start < end:
             url = f"{self.base_url}{start.strftime('%Y-%m')}.zip"
             start += relativedelta(years=1, months=11)
-            csv_files = self.load_data(url)
+            self.load_data(url)
 
     def load_data(self, url: str) -> list[str]:
         content = self.download_zip(url)

@@ -1,5 +1,4 @@
 import os
-import sys
 import json
 from snowflake.sqlalchemy import URL as snowflake_URL
 from sqlalchemy import text, create_engine
@@ -144,8 +143,6 @@ def snowflake_stage_load_copy_remove(
                          file_format=(type='{type}' {file_format_options}),
                          on_error='{on_error}';
                         """
-
-
 
     try:
         conn = engine.connect()

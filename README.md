@@ -33,7 +33,7 @@ there are lots of factors to consider of buy to let strategy:
 
 #### Safety
 
-#### Captial growth
+#### Capital growth
 
 #### Rental Comparisons
 
@@ -61,7 +61,7 @@ The chosen dataset for this project:
 | Crime Data | airflow, extract from link | zip and csv | snowflake |
 | Rightmove for sales | scrapy | json | snowflake |
 | Rightmove for rents | scrapy | json | snowflake |
-| Inside Airbnb | airlfow, extract from link | csv | snowflake |
+| Inside Airbnb | airflow, extract from link | csv | snowflake |
 
 
 The dataset contains every single public transaction made by house transaction, from transaction info such as prices, house details
