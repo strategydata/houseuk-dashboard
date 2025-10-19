@@ -16,11 +16,11 @@ logHandler = TimedRotatingFileHandler(
     f"logs/scrapyLog_{current}.log", when="midnight", interval=1
 )
 logging.getLogger("selenium").setLevel(logging.INFO)
-logging.getLogger("botocore").setLevel(logging.DEBUG)
-logging.getLogger("boto3").setLevel(logging.DEBUG)
-logHandler.setLevel(logging.DEBUG)
-logging.basicConfig(handlers=[logHandler], level=logging.DEBUG)
-LOG_LEVEL = "DEBUG"
+logging.getLogger("botocore").setLevel(logging.INFO)
+logging.getLogger("boto3").setLevel(logging.INFO)
+logHandler.setLevel(logging.INFO)
+logging.basicConfig(handlers=[logHandler], level=logging.INFO)
+LOG_LEVEL = "INFO"
 BOT_NAME = "rightmove"
 
 
