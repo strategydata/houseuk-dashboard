@@ -32,6 +32,7 @@ The chosen dataset for this project:
 | rightmove for sales | scrapy | json | snowflake |
 | rightmove for rents | scrapy | json | snowflake |
 | Inside Airbnb | airlfow, extract from link | csv | snowflake |
+| Risk of flooding | airflow | zip and geojson | s3
 
 
 The dataset contains every single public transaction made by house transaction, from transaction info such as prices, house details
